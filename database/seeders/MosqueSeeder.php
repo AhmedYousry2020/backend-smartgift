@@ -15,13 +15,16 @@ class MosqueSeeder extends Seeder
         // Array of sample names for mosques
         $names = ['Al-Fatih', 'Al-Haram', 'An-Nur', 'Al-Azhar', 'Al-Noor', 'Al-Taqwa', 'Ibn Taymiyyah', 'Al-Rahma', 'Al-Salam', 'Bilal'];
 
+        // Get existing city IDs
+        $cityIds = DB::table('cities')->pluck('id')->toArray();
+
         for ($i = 1; $i <= 10; $i++) {
             // Insert into mosques table
             $mosqueId = DB::table('mosques')->insertGetId([
                 'lat' => fake()->latitude(20.0, 30.0), // Random latitude
                 'lng' => fake()->longitude(30.0, 40.0), // Random longitude
                 'address' => fake()->address(), // Random address
-                'city_id' => rand(26, 40), // Random city ID between 26 and 40
+                'city_id' => $cityIds[array_rand($cityIds)], // Random valid city ID
                 'is_high_need' => fake()->boolean(30), // 30% chance to be true
                 'created_at' => now(),
                 'updated_at' => now(),
