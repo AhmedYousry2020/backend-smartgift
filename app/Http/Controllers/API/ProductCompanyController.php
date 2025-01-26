@@ -3,12 +3,20 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CompanyResource;
+use App\Http\Resources\ProductResource;
+use App\Http\Traits\HttpResponsesTrait;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\Product;
 
 class ProductCompanyController extends Controller
 {
+    use HttpResponsesTrait;
+
+    public function __construct(){
+        $this->middleware('auth:api');
+    }
      /**
      * List all companies with their translations.
      *
@@ -20,7 +28,11 @@ class ProductCompanyController extends Controller
             $query->where('locale', app()->getLocale());
         }])->get();
 
-        return response()->json($companies);
+        return $this->success(
+            message: __('Data Returned Successfully'),
+            data: CompanyResource::collection($companies),
+            status: 200
+        );
     }
 
     /**
@@ -37,12 +49,24 @@ class ProductCompanyController extends Controller
             ->when($companyId, function ($query) use ($companyId) {
                 $query->where('company_id', $companyId);
             })
-            ->with(['translations' => function ($query) {
+            ->with([
+                'translations' => function ($query) {
                 $query->where('locale', app()->getLocale());
-            }])
+            },
+            'company.translations' => function ($query) {
+                $query->where('locale', app()->getLocale());
+            }
+        ],
+
+            )
             ->get();
 
-        return response()->json($products);
+            return $this->success(
+                message: __('Data Returned Successfully'),
+                data: ProductResource::collection($products),
+                status: 200
+            );
+
     }
 
     /**
@@ -55,12 +79,20 @@ class ProductCompanyController extends Controller
     {
         $product = Product::with(['translations' => function ($query) {
             $query->where('locale', app()->getLocale());
-        }])->find($id);
+        },
+        'company.translations' => function ($query) {
+            $query->where('locale', app()->getLocale());
+        }
+        ])->find($id);
 
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
         }
 
-        return response()->json($product);
+        return $this->success(
+            message: __('Data Returned Successfully'),
+            data: new ProductResource($product),
+            status: 200
+        );
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ReSendVerifyRequest;
 use App\Http\Requests\SignInRequest;
 use App\Http\Requests\SignUpRequest;
+use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\VerifyRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Traits\HttpResponsesTrait;
@@ -16,6 +17,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use PhpOption\Some;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -24,7 +26,7 @@ class AuthController extends Controller
     use HttpResponsesTrait;
 
     public function __construct(){
-        $this->middleware('auth:api', ['except' => ['signIn', 'signUp','verify','resendOtpCode','refreshToken']]);
+        $this->middleware('auth:api', ['except' => ['signIn', 'signUp','verify','resendOtpCode']]);
     }
 
     public function signUp(SignUpRequest $request){
@@ -175,5 +177,37 @@ class AuthController extends Controller
     }
 
 
+    public function updateProfile(UpdateProfileRequest $request)
+    {
+        try {
+            // Get the authenticated user
+            $user = auth()->user();
+            $data = $request->validated();
+            // Check if the request contains a file for profile image
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+
+                // Store the image and get the path (you can also store it in a specific directory)
+                $path = $image->store('profile_images', 'public');  // store in 'public' disk
+
+                // Optionally, you can delete the old image if it exists before storing the new one
+                if ($user->profile_image) {
+                    Storage::disk('public')->delete($user->profile_image);
+                }
+
+                // Save the path of the image in the user's profile
+                $data['image'] = $path;
+            }
+            // Update user details
+            $user->update( $data);
+
+            // Return updated user as a resource
+            $data = new UserResource($user);
+
+            return $this->success(__('Profile updated successfully'), $data, 200);
+        } catch (Exception $e) {
+            return $this->errors(__('Something went wrong'), ['error' => $e->getMessage()], 500);
+        }
+    }
 
 }

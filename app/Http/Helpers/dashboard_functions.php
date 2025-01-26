@@ -17,7 +17,7 @@ if(!function_exists('uploadImage')){
         $model        = Str::ucfirst($model);
 //        $originalName =  $request->getClientOriginalName(); // Get file Original Name
         $originalName =  uniqid().'.'.$request->getClientOriginalExtension(); // Get file Original Name
-        $imageName    = str_replace([ '(', ')', ' '],'','smart-savings-' . time() . $originalName);  // Set Image name
+        $imageName    = str_replace([ '(', ')', ' '],'','profile-' . time() . $originalName);  // Set Image name
         $contents     = file_get_contents( $request );
 
         if(Storage::disk(config('filesystems.default'))->put( $model . '/' . $imageName , $contents))

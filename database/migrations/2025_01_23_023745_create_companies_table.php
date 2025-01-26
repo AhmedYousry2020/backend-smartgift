@@ -14,7 +14,6 @@ return new class extends Migration
           // Companies table
           Schema::create('companies', function (Blueprint $table) {
             $table->id(); // Primary key
-            $table->string('name'); // Company name
             $table->timestamps(); // Created at and updated at
         });
 

@@ -12,6 +12,9 @@ class MosqueController extends Controller
 {
     use HttpResponsesTrait;
 
+    public function __construct(){
+        $this->middleware('auth:api');
+    }
      /**
      * List mosques with optional filtering by `is_high_need`.
      *
@@ -29,9 +32,9 @@ class MosqueController extends Controller
             ->with(['translations' => function ($query) {
                 $query->where('locale', app()->getLocale());
             }])
-            ->paginate(10);
+            ->paginate(5);
 
-        return $this->success(__('Data Returned Successfully'), MosqueResource::collection($mosques), 200);
+        return $this->success(message: __('Data Returned Successfully'), data: MosqueResource::collection($mosques), status: 200);
 
     }
 

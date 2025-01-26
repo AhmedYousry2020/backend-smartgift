@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PortfolioResource;
+use App\Http\Traits\HttpResponsesTrait;
+use App\Models\Portfolio;
+use Illuminate\Http\Request;
+
+class PortfolioController extends Controller
+{
+
+    use HttpResponsesTrait;
+
+    public function __construct(){
+        $this->middleware('auth:api');
+    }
+    public function index()
+    {
+        $portfolios = Portfolio::with(['media', 'translations'])->get();
+
+        return $this->success(message: __('Data Returned Successfully'), data: PortfolioResource::collection($portfolios), status: 200);
+
+    }
+
+    public function show($id)
+    {
+        $portfolio = Portfolio::with(['media', 'translations'])->find($id);
+
+        if (!$portfolio) {
+            return response()->json(['message' => 'Portfolio not found'], 404);
+        }
+
+        return response()->json($portfolio);
+    }
+}
