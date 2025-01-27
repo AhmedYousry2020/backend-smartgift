@@ -18,7 +18,13 @@ class PortfolioController extends Controller
     }
     public function index()
     {
-        $portfolios = Portfolio::with(['media', 'translations'])->get();
+        $portfolios = Portfolio::with(['media',
+
+            'translations' => function ($query) {
+            $query->where('locale', app()->getLocale());
+        },
+
+        ])->get();
 
         return $this->success(message: __('Data Returned Successfully'), data: PortfolioResource::collection($portfolios), status: 200);
 
@@ -31,7 +37,7 @@ class PortfolioController extends Controller
         if (!$portfolio) {
             return response()->json(['message' => 'Portfolio not found'], 404);
         }
+        return $this->success(message: __('Data Returned Successfully'), data: new PortfolioResource($portfolio), status: 200);
 
-        return response()->json($portfolio);
     }
 }

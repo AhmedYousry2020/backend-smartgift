@@ -5,6 +5,7 @@ use App\Http\Controllers\API\ProductCompanyController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartOrderController;
 use App\Http\Controllers\API\PortfolioController;
+use App\Http\Controllers\API\SliderController;
 
 Route::group([
     'prefix' => 'v1',
@@ -19,7 +20,7 @@ Route::group([
     Route::post('login', [AuthController::class, 'signIn'])->name('auth.sign-in');
     Route::post('logout', [AuthController::class, 'signOut'])->name('auth.sign-out');
     Route::get('details/profile', [AuthController::class, 'profile'])->name('auth.profile');
-    Route::put('profile', [AuthController::class, 'updateProfile'])->name('auth.update-profile');
+    Route::post('profile', [AuthController::class, 'updateProfile'])->name('auth.update-profile');
 
     // Mosque Routes
     Route::get('mosques', [MosqueController::class, 'list'])->name('mosques.list');
@@ -42,4 +43,7 @@ Route::group([
 
     Route::get('/portfolios', [PortfolioController::class, 'index']); // List all portfolios
     Route::get('/portfolios/{id}', [PortfolioController::class, 'show']); // Get a specific portfolio
+
+    Route::get('/sliders', action: [SliderController::class, 'index']); // List all portfolios
+
 });

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PortfolioResource extends JsonResource
+class SliderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,15 +16,7 @@ class PortfolioResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => $this->type, // 'video' or 'images'
-            'title' => $this->translations->first()->title,
-            'description' => $this->translations->first()->description,
-            'media' => $this->media->map(function ($media) {
-                return [
-                    'id' => $media->id,
-                    'media_path' => asset('storage/' . $media->media_path),
-                ];
-            }),
+            'image' => asset('storage/' . $this->image),
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];
