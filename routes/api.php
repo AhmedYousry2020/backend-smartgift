@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\MosqueController;
 use App\Http\Controllers\API\ProductCompanyController;
 use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\API\CartOrderController;
+use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\PortfolioController;
 use App\Http\Controllers\API\SliderController;
 
@@ -31,14 +31,12 @@ Route::group([
     Route::get('products', [ProductCompanyController::class, 'listProducts'])->name('products.list');
     Route::get('products/{id}', [ProductCompanyController::class, 'productDetails'])->name('products.details');
 
-    //cart and order Routes
-    Route::post('/cart/add', [CartOrderController::class, 'addToCart']);
-    Route::get('/cart', [CartOrderController::class, 'viewCart']);
-    Route::post('/order/create', [CartOrderController::class, 'createOrder']);
-    Route::get('/orders/{id}', [CartOrderController::class, 'getOrderDetails']);
-    Route::delete('cart/item/{id}', [CartOrderController::class, 'removeFromCart'])->name('cart.removeItem');
-    Route::delete('cart', [CartOrderController::class, 'deleteCart'])->name('cart.delete');
-    Route::put('cart/update', [CartOrderController::class, 'updateCartItems'])->name('cart.updateItems');
+    //order Routes
+
+    Route::post('/order/create', [OrderController::class, 'createOrder']);
+    Route::get('/orders/{id}', [OrderController::class, 'viewOrder']);
+    Route::get('/my-orders', [OrderController::class, 'getMyOrders']);
+
 
 
     Route::get('/portfolios', [PortfolioController::class, 'index']); // List all portfolios

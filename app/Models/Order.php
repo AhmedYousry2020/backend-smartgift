@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    protected $fillable = ['user_id', 'mosque_id', 'status','total_price'];
+    protected $fillable = ['user_id', 'status','total_price','order_type'];
 
-    public function items()
+    public function orderDetails()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderDetail::class);
     }
 
-    public function mosques()
+    public function orderCategories()
     {
-        return $this->belongsToMany(Mosque::class, 'order_mosques');
+        return $this->hasMany(OrderCategory::class);
     }
 }

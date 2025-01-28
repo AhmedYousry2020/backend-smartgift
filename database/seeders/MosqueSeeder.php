@@ -19,13 +19,20 @@ class MosqueSeeder extends Seeder
         $cityIds = DB::table('cities')->pluck('id')->toArray();
 
         for ($i = 1; $i <= 10; $i++) {
+            // Determine if the mosque is high need
+            $isHighNeed = fake()->boolean(30); // 30% chance to be high need
+
+            // Set category_id based on is_high_need
+            $categoryId = $isHighNeed ? 2 : 1;
+
             // Insert into mosques table
             $mosqueId = DB::table('mosques')->insertGetId([
                 'lat' => fake()->latitude(20.0, 30.0), // Random latitude
                 'lng' => fake()->longitude(30.0, 40.0), // Random longitude
                 'address' => fake()->address(), // Random address
                 'city_id' => $cityIds[array_rand($cityIds)], // Random valid city ID
-                'is_high_need' => fake()->boolean(30), // 30% chance to be true
+                'is_high_need' => $isHighNeed,
+                'category_id' => $categoryId, // Add category_id based on need
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
