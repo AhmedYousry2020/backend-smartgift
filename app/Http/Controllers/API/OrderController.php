@@ -124,7 +124,7 @@ class OrderController extends Controller
         $orders = Order::where('user_id', auth()->id())->get();
 
            // Return the formatted order response using the OrderResource
-           return  OrderResource::collection($orders);
+           return $this->success(message: __('My Orders Details'), data: OrderResource::collection($orders), status: 200);
     }
 
 }
