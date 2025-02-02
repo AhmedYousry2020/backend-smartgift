@@ -127,4 +127,30 @@ class OrderController extends Controller
            return $this->success(message: __('My Orders Details'), data: OrderResource::collection($orders), status: 200);
     }
 
+    public function lastActivities($limit = 3)
+    {
+        $lastOrders = Order::with('user')->latest()->take($limit)->get();
+
+        if ($lastOrders->isEmpty()) {
+            return response()->json(['message' => 'No orders found'], 404);
+        }
+        return $this->success(message: __('Last Activity'),
+         data: $lastOrders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'user' => [
+                    'id' => $order->user->id,
+                    'name' => $order->user->first_name .' '. $order->user->last_name ,
+                ],
+                'order_type' => $order->order_type,
+                'status' => $order->status,
+                'total_price' => $order->total_price,
+                'created_at' => $order->created_at->toDateTimeString(),
+            ];
+        }),
+         status: 200);
+
+
+    }
+
 }
