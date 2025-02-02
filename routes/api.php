@@ -36,6 +36,7 @@ Route::group([
     Route::post('/order/create', [OrderController::class, 'createOrder']);
     Route::get('/orders/{id}', [OrderController::class, 'viewOrder']);
     Route::get('/my-orders', [OrderController::class, 'getMyOrders']);
+    Route::get('/orders/last-activities/{limit?}', [OrderController::class, 'lastActivities']);
 
 
 
