@@ -11,4 +11,8 @@ class Category extends Model implements TranslatableContract
     use HasFactory, Translatable;
     public $translatedAttributes = ['name','description'];
 
+    public function mosques(){
+        return $this->hasMany(Mosque::class, 'category_id');
+    }
+
 }
