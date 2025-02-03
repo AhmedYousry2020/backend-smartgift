@@ -21,4 +21,10 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getTotalPriceAttribute($value)
+    {
+        $currency = app()->getLocale() === 'ar' ? 'دينار كويتي' : 'KWD';
+        return number_format($value, 2) . ' ' . $currency;
+    }
 }
