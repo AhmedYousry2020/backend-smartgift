@@ -30,9 +30,9 @@ class Mosque extends Model implements TranslatableContract
     public function getImagePathAttribute(){
 
         if (!$this->image) {
-            return asset('storage/mosque_images/default.png'); // Return a default image
+            return asset('uploads/mosque_images/default.jpg'); // Return a default image
         }
-        return asset('storage/' . $this->image);
+        return asset( $this->image);
 
    }
 }

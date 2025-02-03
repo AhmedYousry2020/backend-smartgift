@@ -57,22 +57,18 @@ class MosqueController extends Controller
             'address'=>'required',
             'image'=>'file'
             ]);
-            $request_data=$request->except('image');
 
-        if($request->hasFile('image')){
-            // Get filename with the extension
-            $filenameWithExt = $request->file('image')->getClientOriginalName();
-            //Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request->file('image')->getClientOriginalExtension();
-            // Filename to store
-            $fileNameToStore =$filename.'_'.time().'.'.$extension;
-            // Upload Image ده الي بينقل الصوره للمكان الي عايزه
-            $path = $request->file('image')->storeAs('public/mosque_images',$fileNameToStore);
-
-            $request_data['image'] = 'mosque_images/'. $fileNameToStore;
+        $request_data=$request->except('image');
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            // Generate a unique filename
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            // Move the file to the public/uploads directory
+            $image->move(public_path('uploads/mosque_images/'), $filename);
+            // Save the path in the database (relative to public)
+            $request_data['image'] = 'uploads/mosque_images/' . $filename;
         }
+
         Mosque::create($request_data);
 
         session()->flash('success',__('site.updated_successfully'));
@@ -113,31 +109,20 @@ class MosqueController extends Controller
             'image'=>'file'
             ]);
 
-            $request_data=$request->except('image');
-            if($request->image){
-              if($mosque->image != 'default.png'){
+        $request_data=$request->except('image');
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            // Generate a unique filename
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            // Move the file to the public/uploads directory
+            $image->move(public_path('uploads/mosque_images/'), $filename);
+            // Save the path in the database (relative to public)
+            $request_data['image'] = 'uploads/mosque_images/' . $filename;
+        }
 
-              Storage::disk('public')->delete('mosque_images/'.$mosque->image);
-
-          }
-                // Get filename with the extension
-                $filenameWithExt = $request->file('image')->getClientOriginalName();
-                //Get just filename
-                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                // Get just ext
-                $extension = $request->file('image')->getClientOriginalExtension();
-                // Filename to store
-                $fileNameToStore =$filename.'_'.time().'.'.$extension;
-                // Upload Image ده الي بينقل الصوره للمكان الي عايزه
-               // Upload Image ده الي بينقل الصوره للمكان الي عايزه
-            $path = $request->file('image')->storeAs('public/mosque_images',$fileNameToStore);
-
-            $request_data['image'] = 'mosque_images/'. $fileNameToStore;
-
-      }
-            $mosque->update($request_data);
-            session()->flash('success',__('site.updated_successfully'));
-            return redirect()->route('dashboard.mosques.index');
+        $mosque->update($request_data);
+        session()->flash('success',__('site.updated_successfully'));
+        return redirect()->route('dashboard.mosques.index');
 
     }
 
