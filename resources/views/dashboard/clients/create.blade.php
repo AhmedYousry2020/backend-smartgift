@@ -22,17 +22,22 @@
                      <form action="{{route('dashboard.clients.store')}}" method="post">
                          @csrf
                          @method('post')
-                         <div class='form-group'>
-                         <label>@lang('site.name')</label>
-                         <input class='form-control' type='text' name='name' value ="{{ old('name') }}">
-                         </div>
-                        
-                         @for ($i=1;$i<=2;$i++)
+
+                         <div class="form-group">
+                            <label> @lang('site.first_name')</label>
+                            <input class="form-control" type="text" name="first_name" value="{{old('first_name')}}" >
+                        </div>
+
+                       <div class="form-group">
+                           <label> @lang('site.last_name')</label>
+                           <input class="form-control" type="text" name="last_name" value="{{old('last_name')}}" >
+                       </div>
+
                          <div class='form-group'>
                          <label>@lang('site.phone')</label>
-                         <input class='form-control' type='text' name='phone[]' value="{{old('phone[$i]')}}">
+                         <input class='form-control' type='text' name='phone' value="{{old('phone')}}">
                          </div>
-                         @endfor
+
                          <div class='form-group'>
                          <label>@lang('site.address')</label>
                          <textarea class='form-control'  name='address'>{{ old('address') }}</textarea>

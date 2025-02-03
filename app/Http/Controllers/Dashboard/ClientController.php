@@ -22,7 +22,7 @@ class ClientController extends Controller
     {
         $clients = User::when($request->input('search'),function($q) use($request) {
 
-            return $q->where('name','like','%'.$request->input('search').'%')->orwhere('address','like','%'.$request->input('search').'%');
+            return $q->where('first_name','like','%'.$request->input('search').'%')->orwhere('address','like','%'.$request->input('search').'%');
         })->latest()->paginate(4);
 
         return view('dashboard.clients.index',compact('clients'));
@@ -47,10 +47,10 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-'name'=>'required',
-'phone.0'=>'required|min:5',
-'address'=>'required'
-
+            'first_name'=>'required',
+            'last_name'=>'required',
+            'phone'=>'required',
+            'address'=>'required'
         ]);
         User::create($request->all());
         session()->flash('success',__('site.added_successfully'));
@@ -82,12 +82,13 @@ class ClientController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $client)
-    { $request->validate([
-        'name'=>'required',
-        'phone.0'=>'required|min:5',
-        'address'=>'required'
-
-                ]);
+    {
+        $request->validate([
+            'first_name'=>'required',
+            'last_name'=>'required',
+            'phone'=>'required',
+            'address'=>'required'
+        ]);
                 $client->update($request->all());
                 session()->flash('success',__('site.updated_successfully'));
                 return redirect()->route('dashboard.clients.index');

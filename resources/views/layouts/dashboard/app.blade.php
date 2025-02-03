@@ -62,8 +62,25 @@
                 transform: rotate(360deg);
             }
         }
+        .logo img {
+            max-width: 125px;
+            height: auto;
+        }
+        .fa-search {
+    margin: 4px; /* Adjust as needed */
+}
 
+.fa-plus {
+    margin: 4px; /* Adjust as needed */
+}
+.fa-edit {
+    margin: 4px; /* Adjust as needed */
+}
+.fa-trash {
+    margin: 4px; /* Adjust as needed */
+}
     </style>
+
     {{--<!-- jQuery 3 -->--}}
     <script src="{{ asset('dashboard_files/js/jquery.min.js') }}"></script>
 
@@ -88,10 +105,9 @@
     <header class="main-header">
 
         {{--<!-- Logo -->--}}
-        <a href="{{ asset('dashboard') }}/index2.html" class="logo">
-            {{--<!-- mini logo for sidebar mini 50x50 pixels -->--}}
-            <span class="logo-mini"><b>A</b>LT</span>
-            <span class="logo-lg"><b>Admin</b>LTE</span>
+        <a href="{{ url('/') }}" class="logo">
+            <img src="{{ asset('dashboard_files/img/c66277aa5008d4a424a69c334f1f2d37.png') }}" alt="Logo" style="max-width: 125px;">
+
         </a>
 
         <nav class="navbar navbar-static-top">

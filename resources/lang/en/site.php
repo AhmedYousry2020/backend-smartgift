@@ -9,6 +9,7 @@ return [
 'bottle_count'=>'bottle_count',
 'all_companies'=>'all_companies',
 'status'=>'status',
+'invoice'=>'invoice',
     'related_mosques'=>'related_mosques',
     'mosques_count'=>'mosques_count',
     'latitude' => 'latitude',

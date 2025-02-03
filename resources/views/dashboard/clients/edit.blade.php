@@ -22,17 +22,21 @@
                      <form action="{{route('dashboard.clients.update',$client->id)}}" method="post">
                          @csrf
                          @method('put')
-                         <div class='form-group'>
-                         <label>@lang('site.name')</label>
-                         <input class='form-control' type='text' name='name' value ="{{ $client->name }}">
-                         </div>
-                        
-                         @for ($i=0; $i<2; $i++)
+                         <div class="form-group">
+                            <label> @lang('site.first_name')</label>
+                            <input class="form-control" type="text" name="first_name" value="{{$client->first_name}}" >
+                        </div>
+
+                        <div class="form-group">
+                            <label> @lang('site.last_name')</label>
+                            <input class="form-control" type="text" name="last_name" value="{{$client->last_name}}" >
+                        </div>
+
                          <div class='form-group'>
                          <label>@lang('site.phone')</label>
-                         <input class='form-control' type='text' name='phone[]' value="{{$client->phone[$i]}}">
+                         <input class='form-control' type='text' name='phone' value="{{$client->phone}}">
                          </div>
-                         @endfor
+
                          <div class='form-group'>
                          <label>@lang('site.address')</label>
                          <textarea class='form-control'  name='address'>{{ $client->address }}</textarea>

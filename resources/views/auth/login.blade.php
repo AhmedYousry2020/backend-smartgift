@@ -26,9 +26,39 @@
         <link rel="stylesheet" href="{{ asset('dashboard_files/css/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('dashboard_files/css/AdminLTE.min.css') }}">
     @endif
+    <style>
+        body {
+            overflow: hidden;
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+    color: #fff;
+        }
+        .login-logo img {
+            max-width: 200px;
+            height: auto;
+        }
+        .login-box {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+.btn-primary:hover {
+    background-color: #4a90e2;
+}
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif !important;
+}
+.form-group input:focus {
+    border-color: #66afe9;
+    box-shadow: 0 0 8px rgba(102, 175, 233, .6);
+}
+.btn-primary {
+    transition: all 0.3s ease;
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+    </style>
 
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
 
 </head>
 <body class="login-page">
@@ -36,7 +66,9 @@
 <div class="login-box">
 
     <div class="login-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
+        <a href="{{ url('/') }}">
+            <img src="{{ asset('dashboard_files/img/c66277aa5008d4a424a69c334f1f2d37.png') }}" alt="Logo" style="max-width: 200px;">
+        </a>
     </div><!-- end of login lgo -->
 
     <div class="login-box-body">

@@ -64,27 +64,20 @@ class UserController extends Controller
         $request->validate([
             'first_name'=>'required',
             'last_name'=>'required',
-            'email'=>'required|unique:users',
+            'email'=>'required|unique:admins',
             'image'=>'image',
-            'permissions'=>'required',
             'password'=>'required|confirmed',
          ]);
         $request_data=$request->except('password,password_confirmation,permissions,image');
         $request_data['password']=bcrypt($request->input('password'));
-
-        if($request->hasFile('image')){
-            // Get filename with the extension
-            $filenameWithExt = $request->file('image')->getClientOriginalName();
-            //Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request->file('image')->getClientOriginalExtension();
-            // Filename to store
-            $fileNameToStore =$filename.'_'.time().'.'.$extension;
-            // Upload Image ده الي بينقل الصوره للمكان الي عايزه
-            $path = $request->file('image')->storeAs('public/uploads/user_images',$fileNameToStore);
-
-            $request_data['image'] = $fileNameToStore;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            // Generate a unique filename
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            // Move the file to the public/uploads directory
+            $image->move(public_path('/uploads/user_images/'), $filename);
+            // Save the path in the database (relative to public)
+            $request_data['image'] =  $filename;
         }
 //        if($request->input('image')) {
 //          Image::make($request->input('image'))
@@ -103,8 +96,6 @@ class UserController extends Controller
 //        }
 
         $user = Admin::create($request_data);
-        $user->attachRole('admin');
-        $user->syncPermissions($request->input('permissions'));
 
         session()->flash('success', __('site.added_successfully'));
         return redirect()->route('dashboard.users.index');
@@ -122,46 +113,29 @@ class UserController extends Controller
         $request->validate([
             'first_name'=>'required',
             'last_name'=>'required',
-            'email'=>['required',Rule::unique('users')->ignore($user->id)],
+            'email'=>['required',Rule::unique('admins')->ignore($user->id)],
             'image'=>'image',
-            'permissions'=>'required',
         ]);
         $request_data=$request->except('permissions','image');
-      if($request->image){
-        if($user->image != 'default.png'){
-
-        Storage::disk('public')->delete('/uploads/user_images/'.$user->image);
-
-    }
-          // Get filename with the extension
-          $filenameWithExt = $request->file('image')->getClientOriginalName();
-          //Get just filename
-          $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-          // Get just ext
-          $extension = $request->file('image')->getClientOriginalExtension();
-          // Filename to store
-          $fileNameToStore =$filename.'_'.time().'.'.$extension;
-          // Upload Image ده الي بينقل الصوره للمكان الي عايزه
-          $path = $request->file('image')->storeAs('public/uploads/user_images',$fileNameToStore);
-
-          $request_data['image'] = $fileNameToStore;
-
-}
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            // Generate a unique filename
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            // Move the file to the public/uploads directory
+            $image->move(public_path('/uploads/user_images/'), $filename);
+            // Save the path in the database (relative to public)
+            $request_data['image'] =  $filename;
+        }
 
         $user->update($request_data);
-        $user->syncPermissions($request->input('permissions'));
         session()->flash('success',__('site.updated_successfully'));
         return redirect()->route('dashboard.users.index');
 
 
     }
 
-    public function destroy(User $user)
+    public function destroy(Admin $user)
     {
-        if($user->image != 'default.png'){
-            Storage::disk('public')->delete('/uploads/user_images/'.$user->image);
-
-        }
         $user->delete();
         session()->flash('success',__('site.deleted_successfully'));
         return redirect()->route('dashboard.users.index');

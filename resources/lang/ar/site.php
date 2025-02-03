@@ -7,6 +7,7 @@ return [
      'longitude' => 'خط الطول',
      'mosques'=>'المساجد',
      'cities'=>'المدن',
+     'invoice'=>'الفاتورة',
     'all_cities'=>'كل المدن',
     'bottle_count' => 'عدد الزجاجات',
 'all_companies'=>'عدد الشركات',

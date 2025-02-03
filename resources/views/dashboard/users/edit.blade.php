@@ -48,19 +48,6 @@
                         </div>
 
 
-                        <div class="form-group">
-                            <label>@lang('site.permissions')</label>
-                            <div class="nav-tabs-custom">
-                                @php
-                                $modules = ['users','categories','products','clients','orders'];
-                                    $maps=['create','read','update','delete'];
-                                @endphp
-                                <ul class="nav nav-tabs">
-                                    @foreach($modules as  $index=>$module)
-                                        <li class="{{ $index == 0 ? 'active' : '' }}"><a href="#{{ $module }}" data-toggle="tab">@lang('site.'.$module)</a></li>
-                                    @endforeach
-                                </ul>
-
                                 {{-- <div class="tab-content">
                                     @foreach($modules as  $index=>$module)
                                         <div class="tab-pane {{$index == 0 ? 'active' : ''}}" id="{{$module}}">
@@ -70,8 +57,6 @@
                                         </div>
                                     @endforeach
                                 </div> --}}
-                            </div>
-                        </div>
 
 
                         <div class="form-group">

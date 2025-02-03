@@ -1,6 +1,5 @@
 <div id="print-area">
     <table class="table table-hover table-bordered">
-
         <thead style="background-color:darkgray">
         <tr>
             <th>@lang('site.name')</th>
@@ -23,4 +22,4 @@
 
 </div>
 
-<button class="btn btn-block btn-primary print-btn"><i class="fa fa-print"></i> @lang('site.print')</button>
+{{-- <button class="btn btn-block btn-primary print-btn"><i class="fa fa-print"></i> @lang('site.print')</button> --}}
