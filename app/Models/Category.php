@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model implements TranslatableContract
 {
     use HasFactory, Translatable;
+    protected $fillable = ['name','description'];
     public $translatedAttributes = ['name','description'];
 
     public function mosques(){

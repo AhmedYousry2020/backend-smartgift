@@ -10,7 +10,7 @@ class Company extends Model implements TranslatableContract
 {
     use HasFactory, Translatable;
 
-    protected $guard= [];
+    protected $fillable= ['name'];
 
     public $translatedAttributes = ['name'];
 

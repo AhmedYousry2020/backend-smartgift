@@ -49,7 +49,8 @@
                                <td>{{$index+1}}</td>
                                <td>{{$mosque->name}}</td>
                                <td>{{$mosque->address}}</td>
-                               <td></td>
+                               <td><img src="{{$mosque->image_path}}" alt="" style="width: 90px;" class="img-thumbnail"></td>
+
                                <td>{{$mosque->category->name}} </td>
                                <td>
                                        <a href="{{route('dashboard.mosques.edit',$mosque->id)}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>@lang('site.edit')</a>

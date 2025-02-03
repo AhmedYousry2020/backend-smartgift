@@ -20,14 +20,12 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
 
-if($request->input('search')){
-    $categories = Company::whereTranslationLike('name','%'.$request->input('search').'%')->latest()->paginate(3);
+        if($request->input('search')){
+            $companies = Company::whereTranslationLike('name','%'.$request->input('search').'%')->latest()->paginate(3);
 
-}else{
-
-
-        $companies = Company::latest()->paginate(5);
-}
+        }else{
+                $companies = Company::latest()->paginate(5);
+        }
         return view('dashboard.companies.index',compact('companies'));
     }
 

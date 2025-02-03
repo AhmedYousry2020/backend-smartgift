@@ -18,11 +18,10 @@ class OrderController extends Controller
 
         return view('dashboard.orders.index',compact('orders'));
     }
-    public function products(Order $order){
+    public function products($order_id){
 
-$products = $order->products;
-
-return view('dashboard.orders._products',compact('products','order'));
+    $order = Order::with('orderDetails.product')->find($order_id);
+    return view('dashboard.orders._products',compact('order'));
     }
     public function destroy(Order $order){
 

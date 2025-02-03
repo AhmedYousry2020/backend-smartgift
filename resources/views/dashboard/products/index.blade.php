@@ -22,10 +22,10 @@
                </div>
                <div class='col-md-4'>
 
-                         <select name='category_id' class='form-control'>
+                         <select name='company_id' class='form-control'>
                         <option value=''>@lang('site.all_categories')</option>
-                         @foreach($categories as $category)
-                         <option value='{{$category->id}}' <?php if(request()->input('category_id') == $category->id ) echo 'selected'  ?>>{{$category->name}}</option>
+                         @foreach($companies as $company)
+                         <option value='{{$company->id}}' <?php if(request()->input('company_id') == $company->id ) echo 'selected'  ?>>{{$company->name}}</option>
                          @endforeach
                          </select>
                          </div>
@@ -52,7 +52,7 @@
                                <th>@lang('site.image')</th>
                                <th>@lang('site.purchase_price')</th>
                                <th>@lang('site.sale_price')</th>
-                               <th>@lang('site.stock')</th>
+                               <th>@lang('site.bottle_count')</th>
 
                                <th>@lang('site.action')</th>
                            </tr>
@@ -64,7 +64,7 @@
                                <td>{{$product->name}}</td>
                                <td>{!! $product->description !!}</td>
                                <td>{{$product->company->name}}</td>
-                              <td><img src="{{$product->image}}" alt="" style="width: 90px;" class="img-thumbnail"></td>
+                              <td><img src="{{$product->image_path}}" alt="" style="width: 90px;" class="img-thumbnail"></td>
                                <td>{{$product->price}}</td>
                                <td>{{$product->price}}</td>
                                <td>{{$product->bottle_count}}</td>

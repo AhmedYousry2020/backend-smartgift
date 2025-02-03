@@ -7,7 +7,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{route('dashboard.index')}}"><i class="fa fa-dashboard"></i>@lang('site.dashboard')</a></li>
-                <li><a href="{{route('dashboard.users.index')}}">@lang('site.products')</a></li>
+                <li><a href="{{route('dashboard.products.index')}}">@lang('site.products')</a></li>
                 <li class="active">@lang('site.add')</li>
 
             </ol>
@@ -23,7 +23,7 @@
                          @csrf
                          @method('post')
                          <div class='form-group'>
-                         <label>@lang('site.categories')</label>
+                         <label>@lang('site.companies')</label>
                          <select name='company_id' class='form-control'>
                         <option value=''>@lang('site.all_companies')</option>
                          @foreach($companies as $company)
@@ -59,15 +59,12 @@
                          </div>
                          <div class="form-group">
                              <label> @lang('site.purchase_price')</label>
-                             <input class="form-control" type="number" step="0.01" name="purchase_price" value="{{old('purchase_price')}}">
+                             <input class="form-control" type="number" step="0.01" name="price" value="{{old('price')}}">
                          </div>
+
                          <div class="form-group">
-                             <label> @lang('site.sale_price')</label>
-                             <input class="form-control" type="number" step="0.01" name="sale_price" value="{{old('sale_price')}}">
-                         </div>
-                         <div class="form-group">
-                             <label> @lang('site.stock')</label>
-                             <input class="form-control" type="number" name="stock" value="{{old('stock')}}">
+                             <label> @lang('site.bottle_count')</label>
+                             <input class="form-control" type="number" name="bottle_count" value="{{old('bottle_count')}}">
                          </div>
 
 

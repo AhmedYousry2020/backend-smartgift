@@ -7,7 +7,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{route('dashboard.index')}}"><i class="fa fa-dashboard"></i>@lang('site.dashboard')</a></li>
-                <li><a href="{{route('dashboard.users.index')}}">@lang('site.categories')</a></li>
+                <li><a href="{{route('dashboard.categories.index')}}">@lang('site.categories')</a></li>
                 <li class="active">@lang('site.edit')</li>
 
             </ol>
@@ -31,7 +31,17 @@
                          </div>
 
                          @endforeach
-                      
+
+                         @foreach(config('translatable.locales') as $locale)
+                         <div class="form-group">
+                         <!-- site.ar.name-->
+                             <label> @lang('site.'.$locale.'.description')</label>
+                         <!--ar[name] -->
+                             <input class="form-control" type="text" name="{{$locale}}[description]" value="{{$category->translate($locale)->description}}" >
+                         </div>
+
+                         @endforeach
+
 
 
                         <div class="form-group">

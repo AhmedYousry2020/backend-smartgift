@@ -17,4 +17,13 @@ class Product extends Model implements TranslatableContract
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function getImagePathAttribute(){
+
+        if (!$this->image) {
+            return asset('storage/product_images/default.png'); // Return a default image
+        }
+        return asset('storage/' . $this->image);
+
+   }
 }

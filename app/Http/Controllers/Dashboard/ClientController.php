@@ -52,7 +52,7 @@ class ClientController extends Controller
 'address'=>'required'
 
         ]);
-        Client::create($request->all());
+        User::create($request->all());
         session()->flash('success',__('site.added_successfully'));
         return redirect()->route('dashboard.clients.index');
     }
@@ -69,7 +69,7 @@ class ClientController extends Controller
     }
 
 
-    public function edit(Request $request,Client $client)
+    public function edit(Request $request,User $client)
     {
       return view('dashboard.clients.edit',compact('client'));
     }
@@ -81,7 +81,7 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request, User $client)
     { $request->validate([
         'name'=>'required',
         'phone.0'=>'required|min:5',
@@ -99,11 +99,10 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
+    public function destroy(User $client)
     {
         $client->delete();
         session()->flash('success',__('site.deleted_successfully'));
                 return redirect()->route('dashboard.clients.index');
-
     }
 }

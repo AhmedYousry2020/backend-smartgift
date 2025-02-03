@@ -67,7 +67,7 @@
                 <td>
                    <button class="btn btn-primary btn-sm order-produts" data-url="{{route('dashboard.orders.products',$order->id)}}" data-method="get">
                   <i class="fa fa-list"></i>@lang('site.show')</button>
-                                       <a href="{{route('dashboard.clients.orders.edit',['client'=>$order->user->id,'order'=>$order->id])}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>@lang('site.edit')</a>
+                                       {{-- <a href="{{route('dashboard.clients.orders.edit',['client'=>$order->user->id,'order'=>$order->id])}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>@lang('site.edit')</a> --}}
                                    <form method="post" class="delete" action="{{route('dashboard.orders.destroy',$order->id)}}" style="display: inline-block">
                                        @csrf
                                        @method('delete')

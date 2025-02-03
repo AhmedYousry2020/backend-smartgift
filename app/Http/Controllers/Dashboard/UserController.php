@@ -102,7 +102,7 @@ class UserController extends Controller
 //            return false;
 //        }
 
-        $user = User::create($request_data);
+        $user = Admin::create($request_data);
         $user->attachRole('admin');
         $user->syncPermissions($request->input('permissions'));
 
@@ -112,12 +112,12 @@ class UserController extends Controller
     }
 
 
-    public function edit(User $user)
+    public function edit(Admin $user)
     {
         return view('dashboard.users.edit',compact('user'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, Admin $user)
     {
         $request->validate([
             'first_name'=>'required',

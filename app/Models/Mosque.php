@@ -26,4 +26,13 @@ class Mosque extends Model implements TranslatableContract
     public function category(){
         return $this->belongsTo(Category::class, 'category_id');
     }
+
+    public function getImagePathAttribute(){
+
+        if (!$this->image) {
+            return asset('storage/mosque_images/default.png'); // Return a default image
+        }
+        return asset('storage/' . $this->image);
+
+   }
 }

@@ -23,17 +23,15 @@ class ProductController extends Controller
    }
     public function index(Request $request)
     {
-        $categories =Category::all();
+        $companies =Company::all();
         $products = Product::when($request->input('search'),function($q) use($request){
         return $q->whereTranslationLike('name','%'.$request->input('search').'%');
 
-        })->when($request->input('category_id'),function($q) use($request){
-return $q->where('category_id','like','%'.$request->input('category_id').'%');
+        })->when($request->input('company_id'),function($q) use($request){
+return $q->where('company_id','like','%'.$request->input('company_id').'%');
         })->latest()->paginate(3);
 
-
-
-        return view ('dashboard.products.index',compact('products','categories'));
+        return view ('dashboard.products.index',compact('products','companies'));
     }
 
     /**
@@ -50,12 +48,11 @@ return $q->where('category_id','like','%'.$request->input('category_id').'%');
     public function store(Request $request)
     {
     $request->validate([
-        'category_id'=>'required',
+        'company_id'=>'required',
         'ar.*'=>'required|unique:product_translations,name,description',
         'en.*'=>'required|unique:product_translations,name,description',
-        'purchase_price'=>'required',
-        'sale_price'=>'required',
-        'stock'=>'required'
+        'price'=>'required',
+        'bottle_count'=>'required'
 
         ]);
         $request_date = $request->except('image');
@@ -70,7 +67,7 @@ return $q->where('category_id','like','%'.$request->input('category_id').'%');
             // Filename to store
             $fileNameToStore =$filename.'_'.time().'.'.$extension;
             // Upload Image ده الي بينقل الصوره للمكان الي عايزه
-            $path = $request->file('image')->storeAs('public/uploads/product_images',$fileNameToStore);
+            $path = $request->file('image')->storeAs('public/product_images',$fileNameToStore);
 
             $request_date['image'] = $fileNameToStore;
         }
@@ -92,9 +89,10 @@ return $q->where('category_id','like','%'.$request->input('category_id').'%');
      * @return \Illuminate\Http\Response
      */
     public function edit(Product $product)
-    {   $categories = Category::all();
+    {
+        $companies = Company::all();
 
-return view('dashboard.products.edit',compact('product','categories'));
+        return view('dashboard.products.edit',compact('product','companies'));
     }
 
     /**
@@ -107,12 +105,11 @@ return view('dashboard.products.edit',compact('product','categories'));
     public function update(Request $request,Product $product)
     {
         $request->validate([
-            'category_id'=>'required',
+            'company_id'=>'required',
             'ar.*'=>['required',Rule::unique('product_translations','name','description')->ignore($product->id,'product_id')],
             'en.*'=>['required',Rule::unique('product_translations','name','description')->ignore($product->id,'product_id')],
-            'purchase_price'=>'required',
-            'sale_price'=>'required',
-            'stock'=>'required'
+            'price'=>'required',
+            'bottle_count'=>'required'
 
             ]);
             $request_date = $request->except('image');
@@ -131,7 +128,7 @@ return view('dashboard.products.edit',compact('product','categories'));
             // Filename to store
             $fileNameToStore =$filename.'_'.time().'.'.$extension;
             // Upload Image ده الي بينقل الصوره للمكان الي عايزه
-            $path = $request->file('image')->storeAs('public/uploads/product_images',$fileNameToStore);
+            $path = $request->file('image')->storeAs('public/product_images',$fileNameToStore);
 
             $request_date['image'] = $fileNameToStore;
         }

@@ -35,10 +35,12 @@
                            <thead>
                            <tr>
                                <th>#</th>
-                               <th>@lang('site.name')</th>
+                               <th>@lang('site.first_name')</th>
+                               <th>@lang('site.last_name')</th>
+
                                <th>@lang('site.phone')</th>
-                               <th>@lang('site.address')</th>
-                               <th>@lang('site.add_order')</th>
+                               <th>@lang('site.status')</th>
+                               {{-- <th>@lang('site.add_order')</th> --}}
 
                                <th>@lang('site.action')</th>
                            </tr>
@@ -48,8 +50,9 @@
                            <tr>
                                <td>{{$index+1}}</td>
                                <td>{{$client->first_name}}</td>
+                               <td>{{$client->last_name}}</td>
                                <td>{{ $client->phone}} </td>
-                               <td>{{$client->address}} </td>
+                               <td>{{$client->status}} </td>
                                {{-- @if(auth()->user()->hasPermission('create_orders'))
                                <td><a href="{{route('dashboard.clients.orders.create',$client->id)}}" class="btn btn-primary btn-sm">@lang('site.add_order')</a></td>
                                @endif --}}

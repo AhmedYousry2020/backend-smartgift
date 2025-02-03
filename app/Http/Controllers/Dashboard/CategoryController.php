@@ -11,23 +11,14 @@ class CategoryController extends Controller
 {
     public function __construct(){
 
-        // $this->middleware(['permission:read_categories'])->only('index');
-
-        // $this->middleware(['permission:create_categories'])->only('create');
-        // $this->middleware(['permission:update_categories'])->only('edit');
-        // $this->middleware(['permission:delete_categories'])->only('destroy');
     }
     public function index(Request $request)
     {
-
-if($request->input('search')){
-    $categories = Category::whereTranslationLike('name','%'.$request->input('search').'%')->latest()->paginate(3);
-
-}else{
-
-
-        $categories = Category::latest()->paginate(3);
-}
+        if($request->input('search')){
+            $categories = Category::whereTranslationLike('name','%'.$request->input('search').'%');
+        }else{
+                $categories = Category::latest()->paginate(8);
+        }
         return view('dashboard.categories.index',compact('categories'));
     }
 

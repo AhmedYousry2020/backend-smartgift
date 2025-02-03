@@ -37,8 +37,9 @@
                            <tr>
                                <th>#</th>
                                <th>@lang('site.name')</th>
-                               <th>@lang('site.products_count')</th>
-                               <th>@lang('site.related_products')</th>
+                               <th>@lang('site.description')</th>
+                               <th>@lang('site.mosques_count')</th>
+                               <th>@lang('site.related_mosques')</th>
                                <th>@lang('site.action')</th>
                            </tr>
                            </thead>
@@ -47,8 +48,9 @@
                            <tr>
                                <td>{{$index+1}}</td>
                                <td>{{$category->name}}</td>
+                               <td>{{$category->description}}</td>
                                <td>{{$category->mosques->count()}} </td>
-                               <td><a href="{{route('dashboard.products.index',['category_id'=>$category->id])}}" class="btn btn-info sm">@lang('site.related_products')</a></td>
+                               <td><a href="{{route('dashboard.mosques.index',['category_id'=>$category->id])}}" class="btn btn-info sm">@lang('site.related_mosques')</a></td>
                                <td>
                                        <a href="{{route('dashboard.categories.edit',$category->id)}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>@lang('site.edit')</a>
                                    <form method="post" class="delete" action="{{route('dashboard.categories.destroy',$category->id)}}" style="display: inline-block">

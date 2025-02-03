@@ -10,11 +10,11 @@
         </thead>
 
         <tbody>
-        @foreach ($products as $product)
+        @foreach ($order->orderDetails as $product)
             <tr>
-                <td>{{ $product->name }}</td>
-                <td>{{ $product->pivot->quantity }}</td>
-                <td>{{ number_format($product->pivot->quantity * $product->sale_price, 2) }}</td>
+                <td>{{ $product->product->name }}</td>
+                <td>{{ $product->quantity }}</td>
+                <td>{{ number_format($product->quantity * $product->price, 2) }}</td>
             </tr>
         @endforeach
         </tbody>

@@ -25,7 +25,6 @@ Route::group(
             Route::middleware('guest:admin')->group(function () {
                 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
                 Route::post('login', [LoginController::class, 'login']);
-                Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
             });
         });
@@ -33,6 +32,7 @@ Route::group(
         // 🔹 Dashboard Routes (Admin Only)
         Route::prefix('dashboard')->middleware('admin')->name('dashboard.')->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('index');
+            Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
             Route::resource('categories', CategoryController::class)->except(['show']);
             Route::resource('companies', CompanyController::class)->except(['show']);

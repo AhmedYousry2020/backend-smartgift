@@ -18,13 +18,16 @@
             @if (auth('admin')->user())
             <li> <a href="{{route('dashboard.categories.index')}}"><i class="fa fa-cubes"></i><span>@lang('site.categories')</span></a></li>
             @endif
+
+            @if (auth('admin')->user())
+            <li> <a href="{{route('dashboard.mosques.index')}}"><i class="fa fa-circle"></i><span>@lang('site.mosques')</span></a></li>
+            @endif
+
             @if (auth('admin')->user())
             <li> <a href="{{route('dashboard.companies.index')}}"><i class="fa fa-cubes"></i><span>@lang('site.companies')</span></a></li>
             @endif
 
-            @if (auth('admin')->user())
-            <li> <a href="{{route('dashboard.mosques.index')}}"><i class="fa fa-cubes"></i><span>@lang('site.mosques')</span></a></li>
-            @endif
+
 
             @if (auth('admin')->user())
             <li> <a href="{{route('dashboard.products.index')}}"><i class="fa fa-product-hunt"></i><span>@lang('site.products')</span></a></li>

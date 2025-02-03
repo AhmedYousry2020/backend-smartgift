@@ -19,7 +19,7 @@
                 </div>
                 <div class="box-body">
                 @include('partials._errors')
-                     <form action="{{route('dashboard.mosques.store')}}" method="post">
+                     <form action="{{route('dashboard.mosques.store')}}" method="post" enctype="multipart/form-data">
                          @csrf
                          @method('post')
                          @foreach(config('translatable.locales') as $locale)
@@ -31,9 +31,55 @@
                          </div>
 
                          @endforeach
-
+                         <div class="form-group">
+                            <!-- site.latitude-->
+                                <label> @lang('site.latitude')</label>
+                            <!--lat -->
+                                <input class="form-control" type="number" name="lat" value="{{old('lat')}}" step="any" >
                          </div>
+
+                        <div class="form-group">
+                            <!-- site.latitude-->
+                                <label> @lang('site.longitude')</label>
+                            <!--lat -->
+                                <input class="form-control" type="number" name="lng" value="{{old('lng')}}" step="any">
                         </div>
+
+                        <div class="form-group">
+                            <!-- site.latitude-->
+                                <label> @lang('site.address')</label>
+                            <!--lat -->
+                                <input class="form-control" type="text" name="address" value="{{old('address')}}" >
+                        </div>
+
+                        <div class="form-group">
+                            <label> @lang('site.image')</label>
+                            <input class="form-control image" type="file" name="image">
+                        </div>
+
+                        <div class="form-group">
+                            <img src="{{asset('storage/uploads/user_images/default.png')}}" style="width:100px" class="img-thumbnail image-preview" alt="">
+                         </div>
+
+                         <div class='form-group'>
+                            <label>@lang('site.categories')</label>
+                            <select name='category_id' class='form-control'>
+                           <option value=''>@lang('site.all_categories')</option>
+                            @foreach($categories as $category)
+                            <option value='{{$category->id}}' <?php if(old('category_id') == $category->id) echo 'selected' ?>>{{$category->name}}</option>
+                            @endforeach
+                            </select>
+                            </div>
+                            <div class='form-group'>
+                                <label>@lang('site.cities')</label>
+                                <select name='city_id' class='form-control'>
+                               <option value=''>@lang('site.all_cities')</option>
+                                @foreach($cities as $city)
+                                <option value='{{$city->id}}' <?php if(old('city_id') == $city->id) echo 'selected' ?>>{{$city->name}}</option>
+                                @endforeach
+                                </select>
+                                </div>
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>@lang('site.add')</button>
                         </div>

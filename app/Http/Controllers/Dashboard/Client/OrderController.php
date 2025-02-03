@@ -5,23 +5,24 @@ namespace App\Http\Controllers\Dashboard\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Client;
-use App\Order;
-use App\Category;
+use App\Models\Order;
+use App\Models\Company;
+use App\Models\Admin;
 use App\Product;
 
 class OrderController extends Controller
 {
-   
-    
-    public function create(Client $client)
+
+
+    public function create(Admin $client)
     {
-        $categories = Category::with('products')->get();
-     return view('dashboard.clients.orders.create',compact('client','categories')); 
+        $categories = Company::with('products')->get();
+     return view('dashboard.clients.orders.create',compact('client','categories'));
     }
 
-    public function store(Request $request,Client $client)
+    public function store(Request $request,Admin $client)
     {
-        
+
        $request->validate([
            'prdouct_ids'=>'required|array',
            'quantities'=>'required|array'
@@ -42,33 +43,33 @@ class OrderController extends Controller
         return redirect()->route('dashboard.orders.index');
     }
 
-    
-    public function edit(Client $client,Order $order)
+
+    public function edit(Admin $client,Order $order)
     {
-        $categories = Category::all();
+        $categories = Company::all();
       return view('dashboard.clients.orders.edit',compact('client','order','categories'));
 
     }
 
-    public function update(Request $request,Client $client,Order $order)
-    { 
+    public function update(Request $request,Admin $client,Order $order)
+    {
         $request->validate([
             'prdouct_ids'=>'required|array',
             'quantities'=>'required|array'
         ]);
-       $this->detach_order($order); 
+       $this->detach_order($order);
        $this->attach_order($request,$client);
- 
+
        session()->flash('success',__('site.updated_successfully'));
        return redirect()->route('dashboard.orders.index');
-    
+
                  }
 
 
-                
-                
-   private function attach_order(Request $request,Client $client){
-    
+
+
+   private function attach_order(Request $request,Admin $client){
+
     $order = $client->orders()->create([]);
     $total_price = 0;
     foreach ($request->prdouct_ids as $index=>$product){
@@ -89,7 +90,7 @@ class OrderController extends Controller
         $product->update([
       'stock'=>$product->stock + $product->pivot->quantity
         ]);
-      
+
               }
               $order->delete();
 

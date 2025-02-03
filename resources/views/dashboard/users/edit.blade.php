@@ -61,7 +61,7 @@
                                     @endforeach
                                 </ul>
 
-                                <div class="tab-content">
+                                {{-- <div class="tab-content">
                                     @foreach($modules as  $index=>$module)
                                         <div class="tab-pane {{$index == 0 ? 'active' : ''}}" id="{{$module}}">
                                             @foreach($maps as $map)
@@ -69,7 +69,7 @@
                                             @endforeach
                                         </div>
                                     @endforeach
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
 

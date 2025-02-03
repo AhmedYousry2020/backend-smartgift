@@ -3,31 +3,27 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\City;
 use App\Models\Mosque;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class MosqueController extends Controller
 {
     public function __construct(){
-
-        // $this->middleware(['permission:read_categories'])->only('index');
-
-        // $this->middleware(['permission:create_categories'])->only('create');
-        // $this->middleware(['permission:update_categories'])->only('edit');
-        // $this->middleware(['permission:delete_categories'])->only('destroy');
     }
     public function index(Request $request)
     {
+            $mosques = Mosque::latest()->paginate(15);
+            $mosques = Mosque::when($request->input('search'),function($q) use($request){
+                return $q->whereTranslationLike('name','%'.$request->input('search').'%');
 
-if($request->input('search')){
-    $mosques = Mosque::whereTranslationLike('name','%'.$request->input('search').'%')->latest()->paginate(3);
+                })->when($request->input('category_id'),function($q) use($request){
+                  return $q->where('category_id','like','%'.$request->input('category_id').'%');
+                })->latest()->paginate(15);
 
-}else{
-
-
-        $mosques = Mosque::latest()->paginate(15);
-}
         return view('dashboard.mosques.index',compact('mosques'));
     }
 
@@ -38,7 +34,9 @@ if($request->input('search')){
      */
     public function create()
     {
-        return view('dashboard.mosques.create');
+        $categories = Category::all();
+        $cities = City::all();
+        return view('dashboard.mosques.create',compact('categories','cities'));
     }
 
     /**
@@ -52,10 +50,33 @@ if($request->input('search')){
         $request->validate([
             'ar.*'=>'required|unique:mosque_translations,name',
             'en.*'=>'required|unique:mosque_translations,name',
+            'lat'=>'required',
+            'lng'=>'required',
+            'city_id'=>'required',
+            'category_id'=>'required',
+            'address'=>'required',
+            'image'=>'file'
             ]);
-            Mosque::create($request->all());
+            $request_data=$request->except('image');
+
+        if($request->hasFile('image')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            //Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('image')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore =$filename.'_'.time().'.'.$extension;
+            // Upload Image ده الي بينقل الصوره للمكان الي عايزه
+            $path = $request->file('image')->storeAs('public/mosque_images',$fileNameToStore);
+
+            $request_data['image'] = 'mosque_images/'. $fileNameToStore;
+        }
+        Mosque::create($request_data);
+
         session()->flash('success',__('site.updated_successfully'));
-                return redirect()->route('dashboard.mosques.index');
+        return redirect()->route('dashboard.mosques.index');
     }
 
     /**
@@ -71,9 +92,10 @@ if($request->input('search')){
 
 
     public function edit(Mosque $mosque)
-
     {
-        return view('dashboard.mosques.edit',compact('mosque'));
+        $categories = Category::all();
+        $cities = City::all();
+        return view('dashboard.mosques.edit',compact('mosque','categories','cities'));
     }
 
 
@@ -83,8 +105,37 @@ if($request->input('search')){
 
             'ar.*'=>['required',Rule::unique('mosque_translations','name')->ignore($mosque->id,'mosque_id')],
             'en.*'=>['required',Rule::unique('mosque_translations','name')->ignore($mosque->id,'mosque_id')],
+            'lat'=>'required',
+            'lng'=>'required',
+            'city_id'=>'required',
+            'category_id'=>'required',
+            'address'=>'required',
+            'image'=>'file'
             ]);
-            $mosque->update($request->all());
+
+            $request_data=$request->except('image');
+            if($request->image){
+              if($mosque->image != 'default.png'){
+
+              Storage::disk('public')->delete('mosque_images/'.$mosque->image);
+
+          }
+                // Get filename with the extension
+                $filenameWithExt = $request->file('image')->getClientOriginalName();
+                //Get just filename
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                // Get just ext
+                $extension = $request->file('image')->getClientOriginalExtension();
+                // Filename to store
+                $fileNameToStore =$filename.'_'.time().'.'.$extension;
+                // Upload Image ده الي بينقل الصوره للمكان الي عايزه
+               // Upload Image ده الي بينقل الصوره للمكان الي عايزه
+            $path = $request->file('image')->storeAs('public/mosque_images',$fileNameToStore);
+
+            $request_data['image'] = 'mosque_images/'. $fileNameToStore;
+
+      }
+            $mosque->update($request_data);
             session()->flash('success',__('site.updated_successfully'));
             return redirect()->route('dashboard.mosques.index');
 

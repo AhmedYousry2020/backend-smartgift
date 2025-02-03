@@ -23,11 +23,11 @@
                          @csrf
                          @method('PUT')
                          <div class='form-group'>
-                         <label>@lang('site.categories')</label>
-                         <select name='category_id' class='form-control'>
-                        <option value=''>@lang('site.all_categories')</option> 
-                         @foreach($categories as $category)
-                         <option value='{{$category->id}}' <?php if($product->category_id == $category->id) echo "selected" ?>>{{$category->name}}</option>
+                         <label>@lang('site.companies')</label>
+                         <select name='company_id' class='form-control'>
+                        <option value=''>@lang('site.all_companies')</option>
+                         @foreach($companies as $company)
+                         <option value='{{$company->id}}' <?php if($product->company_id == $company->id) echo "selected" ?>>{{$company->name}}</option>
                          @endforeach
                          </select>
                          </div>
@@ -47,7 +47,7 @@
                              <textarea class="form-control ckeditor"  name="{{$locale}}[description]" >{{$product->translate($locale)->description}}</textarea>
                          </div>
                          @endforeach
-                      
+
                          <div class="form-group">
                              <label> @lang('site.image')</label>
                              <input class="form-control image" type="file" name="image">
@@ -59,18 +59,15 @@
                          </div>
                          <div class="form-group">
                              <label> @lang('site.purchase_price')</label>
-                             <input class="form-control" type="number" name="purchase_price" value="{{$product->purchase_price}}">
-                         </div>
-                         <div class="form-group">
-                             <label> @lang('site.sale_price')</label>
-                             <input class="form-control" type="number" step="0.01" name="sale_price" value="{{$product->sale_price}}">
-                         </div>
-                         <div class="form-group">
-                             <label> @lang('site.stock')</label>
-                             <input class="form-control" type="number" name="stock" value="{{$product->stock}}">
+                             <input class="form-control" type="number" name="price" value="{{$product->price}}">
                          </div>
 
-                      
+                         <div class="form-group">
+                             <label> @lang('site.bottle_count')</label>
+                             <input class="form-control" type="number" name="bottle_count" value="{{$product->bottle_count}}">
+                         </div>
+
+
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i>@lang('site.edit')</button>
