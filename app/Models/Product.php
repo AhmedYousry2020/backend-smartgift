@@ -21,9 +21,9 @@ class Product extends Model implements TranslatableContract
     public function getImagePathAttribute(){
 
         if (!$this->image) {
-            return asset('storage/product_images/default.png'); // Return a default image
+            return asset('uploads/product_images/default.png'); // Return a default image
         }
-        return asset('storage/' . $this->image);
+        return asset( $this->image);
 
    }
 }

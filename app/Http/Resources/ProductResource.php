@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'bottle_count'=>$this->bottle_count,
             'description' => $this->translations->first()->description ?? $this->description, // Use the translated name or fallback
-            'image'=>asset('storage/' . $this->image),
+            'image'=> $this->image_path,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

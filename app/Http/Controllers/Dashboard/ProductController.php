@@ -52,26 +52,22 @@ return $q->where('company_id','like','%'.$request->input('company_id').'%');
         'ar.*'=>'required|unique:product_translations,name,description',
         'en.*'=>'required|unique:product_translations,name,description',
         'price'=>'required',
-        'bottle_count'=>'required'
+        'bottle_count'=>'required',
+        'image'=>'file'
 
         ]);
-        $request_date = $request->except('image');
-
-        if($request->hasFile('image')){
-            // Get filename with the extension
-            $filenameWithExt = $request->file('image')->getClientOriginalName();
-            //Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request->file('image')->getClientOriginalExtension();
-            // Filename to store
-            $fileNameToStore =$filename.'_'.time().'.'.$extension;
-            // Upload Image ده الي بينقل الصوره للمكان الي عايزه
-            $path = $request->file('image')->storeAs('public/product_images',$fileNameToStore);
-
-            $request_date['image'] = $fileNameToStore;
+        $request_data = $request->except('image');
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            // Generate a unique filename
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            // Move the file to the public/uploads directory
+            $image->move(public_path('uploads/product_images/'), $filename);
+            // Save the path in the database (relative to public)
+            $request_data['image'] = 'uploads/product_images/' . $filename;
         }
-        Product::create($request_date);
+
+        Product::create($request_data);
         session()->flash('success',__('site.added_successfully'));
         return redirect()->route('dashboard.products.index');
 
@@ -109,30 +105,21 @@ return $q->where('company_id','like','%'.$request->input('company_id').'%');
             'ar.*'=>['required',Rule::unique('product_translations','name','description')->ignore($product->id,'product_id')],
             'en.*'=>['required',Rule::unique('product_translations','name','description')->ignore($product->id,'product_id')],
             'price'=>'required',
-            'bottle_count'=>'required'
+            'bottle_count'=>'required',
+            'image'=>'file'
 
             ]);
             $request_date = $request->except('image');
-            if($request->hasFile('image')){
-
-            if($request->input('image')!= 'default.png' ){
-                Storage::disk('public')->delete('/uploads/product_images/'.$product->image);
-
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                // Generate a unique filename
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                // Move the file to the public/uploads directory
+                $image->move(public_path('uploads/product_images/'), $filename);
+                // Save the path in the database (relative to public)
+                $request_date['image'] = 'uploads/product_images/' . $filename;
             }
-            // Get filename with the extension
-            $filenameWithExt = $request->file('image')->getClientOriginalName();
-            //Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request->file('image')->getClientOriginalExtension();
-            // Filename to store
-            $fileNameToStore =$filename.'_'.time().'.'.$extension;
-            // Upload Image ده الي بينقل الصوره للمكان الي عايزه
-            $path = $request->file('image')->storeAs('public/product_images',$fileNameToStore);
-
-            $request_date['image'] = $fileNameToStore;
-        }
-        $product->update($request_date);
+        $product->update(attributes: $request_date);
         session()->flash('success',__('site.updated_successfully'));
         return redirect()->route('dashboard.products.index');
 
