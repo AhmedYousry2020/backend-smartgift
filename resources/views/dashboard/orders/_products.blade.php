@@ -18,7 +18,7 @@
         @endforeach
         </tbody>
     </table>
-    <h3>@lang('site.total') <span>{{ $order->total_price }}</span></h3>
+    <h3>@lang('site.total') <span>{{ $order->formatted_total_price }}</span></h3>
 
 </div>
 

@@ -61,7 +61,7 @@
         @foreach ($orders as $order)
             <tr>
                 <td>{{ $order->user->first_name }}</td>
-                <td>{{ $order->total_price }}</td>
+                <td>{{ $order->formatted_total_price }}</td>
 
                 <td>{{ $order->created_at->toFormattedDateString() }}</td>
                 <td>

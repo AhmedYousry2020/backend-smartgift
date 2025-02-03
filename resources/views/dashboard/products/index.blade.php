@@ -65,8 +65,8 @@
                                <td>{!! $product->description !!}</td>
                                <td>{{$product->company->name}}</td>
                               <td><img src="{{$product->image_path}}" alt="" style="width: 90px;" class="img-thumbnail"></td>
-                               <td>{{$product->price}}</td>
-                               <td>{{$product->price}}</td>
+                               <td>{{$product->formatted_price}}</td>
+                               <td>{{$product->formatted_price}}</td>
                                <td>{{$product->bottle_count}}</td>
 
                                <td>

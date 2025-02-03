@@ -26,10 +26,10 @@ class Product extends Model implements TranslatableContract
         return asset( $this->image);
 
    }
-//    public function getPriceAttribute($value)
-//    {
-//        $currency = app()->getLocale() === 'ar' ? 'دينار كويتي' : 'KWD';
-//        return number_format($value, 2) . ' ' . $currency;
-//    }
+   public function getFormattedPriceAttribute($value)
+   {
+       $currency = app()->getLocale() === 'ar' ? 'دينار كويتي' : 'KWD';
+       return number_format($this->price, 2) . ' ' . $currency;
+   }
 
 }
