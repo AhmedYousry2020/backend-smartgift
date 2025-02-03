@@ -30,9 +30,9 @@ class Admin extends Authenticatable
        public function getImagePathAttribute(){
 
             if (!$this->image) {
-                return asset('storage/user_images/default.png'); // Return a default image
+                return asset('uploads/user_images/default.png'); // Return a default image
             }
-            return asset('storage/user_images/' . $this->image);
+            return asset('uploads/user_images/'.$this->image);
 
        }
 }
