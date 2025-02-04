@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(MosqueSeeder::class);
         // $this->call(PortfolioSeeder::class);
         // $this->call(ProductSeeder::class);
-        $this->call(SliderSeeder::class);
+        $this->call(PortfolioSeeder::class);
         // $this->call(AdminSeeder::class);
 
 
