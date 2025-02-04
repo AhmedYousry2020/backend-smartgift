@@ -18,15 +18,15 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $this->call(CountriesTableSeeder::class);
-        $this->call(CityTableSeeder::class);
-        $this->call(CompaniesSeeder::class);
-        $this->call(CategorySeeder::class);
-        $this->call(MosqueSeeder::class);
-        $this->call(PortfolioSeeder::class);
-        $this->call(ProductSeeder::class);
+        // $this->call(CountriesTableSeeder::class);
+        // $this->call(CityTableSeeder::class);
+        // $this->call(CompaniesSeeder::class);
+        // $this->call(CategorySeeder::class);
+        // $this->call(MosqueSeeder::class);
+        // $this->call(PortfolioSeeder::class);
+        // $this->call(ProductSeeder::class);
         $this->call(SliderSeeder::class);
-         $this->call(AdminSeeder::class);
+        // $this->call(AdminSeeder::class);
 
 
 

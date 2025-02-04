@@ -16,7 +16,7 @@ class SliderResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'image' => asset('storage/' . $this->image),
+            'image' => asset( $this->image),
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

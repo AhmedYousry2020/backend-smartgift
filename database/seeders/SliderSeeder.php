@@ -15,7 +15,7 @@ class SliderSeeder extends Seeder
     public function run(): void
     {
           // Example: Storing a fake slider image
-          $imagePath = 'slider_images/' . 'slider_' . rand(1, 100) . '.jpg';
+          $imagePath = 'uploads/slider_images/' . 'sdd.jpg';
 
           // Store a placeholder image or your custom image
           // You can replace 'https://via.placeholder.com/600x400' with a real image path
