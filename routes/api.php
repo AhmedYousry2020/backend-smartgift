@@ -42,6 +42,9 @@ Route::group([
 
 
     Route::get('/portfolios', [PortfolioController::class, 'index']); // List all portfolios
+    Route::get('/settings', [PortfolioController::class, 'getSettings']); // List all portfolios
+
+
     Route::get('/portfolios/{id}', [PortfolioController::class, 'show']); // Get a specific portfolio
 
     Route::get('/sliders', action: [SliderController::class, 'index']); // List all portfolios
