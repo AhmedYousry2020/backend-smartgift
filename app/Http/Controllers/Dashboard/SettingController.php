@@ -71,8 +71,10 @@ class SettingController extends Controller
     {
         $request->validate([
        
-            'ar.*'=>'required|unique:setting_translations,terms_and_conditions,privacy_policy',
-            'en.*'=>'required|unique:setting_translations,terms_and_conditions,privacy_policy',
+        
+            'ar.*'=>['required',Rule::unique('setting_translations','terms_and_conditions','privacy_policy')->ignore($setting->id,'setting_id')],
+            'en.*'=>['required',Rule::unique('setting_translations','terms_and_conditions','privacy_policy')->ignore($setting->id,'setting_id')],
+
     
             ]);
             
