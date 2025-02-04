@@ -41,6 +41,8 @@ Route::group(
             Route::resource('users', UserController::class)->except(['show']);
             Route::resource('clients', ClientController::class)->except(['show']);
             Route::resource('clients.orders', ClientOrderController::class)->except(['show']);
+
+            Route::get('/invoice/{id}/download', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
             Route::resource('orders', OrderController::class)->except(['show']);
 
             Route::get('/orders/{order}/products', [OrderController::class, 'products'])->name('orders.products');

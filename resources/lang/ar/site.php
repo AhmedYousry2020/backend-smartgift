@@ -12,6 +12,9 @@ return [
     'bottle_count' => 'عدد الزجاجات',
 'all_companies'=>'عدد الشركات',
 'status'=>'الحاله',
+'order_code'=>'طلب رقم',
+
+'Sales Graph'=>'رسم بياني للمبيعات',
      'related_mosques'=>'المساجد المرتبطة',
      'mosques_count'=>'عدد المساجد',
      'first_name'=>'الاسم الاول',

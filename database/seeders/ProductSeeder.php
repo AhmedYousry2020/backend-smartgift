@@ -42,6 +42,7 @@ class ProductSeeder extends Seeder
             'company_id' => $productData['company_id'],
             'price' => $productData['price'],
             'bottle_count' => $productData['bottle_count'],
+            'image'=>null
         ]);
 
         foreach ($productData['translations'] as $translation) {

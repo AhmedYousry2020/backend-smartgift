@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use PDF;
+use Numbers;
 use Illuminate\Http\Request;
 class OrderController extends Controller
 {
@@ -32,4 +34,18 @@ class OrderController extends Controller
 
 
     }
+    public function downloadInvoice($invoiceId)
+    {
+        // Find the invoice from the database
+        $invoice = Order::with('user', 'orderDetails.product')->findOrFail($invoiceId);
+        $total_with_arabic = Numbers::TafqeetMoney($invoice->total_price);
+
+        $invoice['total_with_arabic'] = $total_with_arabic;
+        // Generate PDF from the Blade view
+        $pdf = PDF::loadView('pdf.invoice', compact('invoice'));
+
+        // Download the generated PDF
+        return $pdf->download('invoice-' . $invoice->id . '.pdf');
+    }
+    
 }

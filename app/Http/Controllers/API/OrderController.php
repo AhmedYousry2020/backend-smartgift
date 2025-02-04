@@ -41,11 +41,21 @@ class OrderController extends Controller
             'products.*.quantity' => 'required|integer|min:1',
         ]);
 
+        // Get the last order code and increment it
+        $lastOrder = Order::orderBy('id', 'desc')->first();
+        $nextOrderCode = '#1'; // default to #1 if no orders exist yet
+
+        if ($lastOrder) {
+            // Get the last order code and increment the number part
+            $lastOrderNumber = (int)substr($lastOrder->order_code, 1);
+            $nextOrderCode = '#' . ($lastOrderNumber + 1);
+        }
         $order = Order::create([
             'order_type' => $validated['order_type'],
             'user_id'=>auth()->user()->id,
             'status' => 'pending',
             'total_price' => 0,  // will be updated later
+            'order_code' => $nextOrderCode, // Store the generated order code
         ]);
 
         $totalPrice = 0;
@@ -152,5 +162,7 @@ class OrderController extends Controller
 
 
     }
+
+
 
 }

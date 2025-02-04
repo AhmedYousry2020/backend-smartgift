@@ -75,7 +75,7 @@ url:url,
 method:method,
 success: function(data){
     $('#loading').css('display','none');
-$('#order-product-list').append(data);
+$('#order-product-list').html(data);
 }
 })
 

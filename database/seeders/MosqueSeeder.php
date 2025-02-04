@@ -33,6 +33,7 @@ class MosqueSeeder extends Seeder
                 'city_id' => $cityIds[array_rand($cityIds)], // Random valid city ID
                 'is_high_need' => $isHighNeed,
                 'category_id' => $categoryId, // Add category_id based on need
+                'image'=>null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

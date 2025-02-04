@@ -51,8 +51,10 @@
 
     <table class="table table-hover">
         <tr>
+            <th>@lang('site.order_code')</th>
             <th>@lang('site.client_name')</th>
             <th>@lang('site.price')</th>
+            <th>@lang('site.status')</th>
 
             <th>@lang('site.created_at')</th>
             <th>@lang('site.action')</th>
@@ -60,9 +62,11 @@
 
         @foreach ($orders as $order)
             <tr>
-                <td>{{ $order->user->first_name }}</td>
-                <td>{{ $order->formatted_total_price }}</td>
+                <td>{{ $order->order_code }}</td>
 
+                <td>{{ $order->user->first_name }} {{$order->user->last_name }}</td>
+                <td>{{ $order->formatted_total_price }}</td>
+                <td>{{ $order->status }}</td>
                 <td>{{ $order->created_at->toFormattedDateString() }}</td>
                 <td>
                    <button class="btn btn-primary btn-sm order-produts" data-url="{{route('dashboard.orders.products',$order->id)}}" data-method="get">
@@ -73,6 +77,9 @@
                                        @method('delete')
                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>@lang('site.delete')</button>
                                    </form>
+                                   <a href="{{ route('dashboard.invoice.download', ['id' => $order->id]) }}" class="btn btn-success">
+                                    تحميل الفاتورة
+                                </a>
                 </td>
 
             </tr>
