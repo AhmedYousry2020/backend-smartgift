@@ -32,7 +32,7 @@
                                             @if(in_array(pathinfo($media->media_path, PATHINFO_EXTENSION), ['jpg', 'jpeg','JPEG','JPG', 'PNG','png', 'gif']))
                                                 <img src="{{ asset($media->media_path) }}" class="img-thumbnail w-100" style="height: 200px; object-fit: cover;" alt="portfolio Media">
                                             @elseif(in_array(pathinfo($media->media_path, PATHINFO_EXTENSION), ['mp4', 'mov', 'avi']))
-                                                <video class="card-img-top img-fluid" controls>
+                                                <video class="img-thumbnail w-100" style="height: 200px; object-fit: cover;"  controls>
                                                     <source src="{{ asset($media->media_path) }}" type="video/mp4">
                                                     Your browser does not support the video tag.
                                                 </video>
