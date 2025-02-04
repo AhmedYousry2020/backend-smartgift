@@ -18,7 +18,8 @@ class PortfolioSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('portfolios')->truncate(); // Empties the table and resets the auto-increment
-
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;'); // Disable foreign key checks
+        DB::table('portfolios')->truncate(); // Truncate the table
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;'); // Enable foreign key checks
     }
 }
