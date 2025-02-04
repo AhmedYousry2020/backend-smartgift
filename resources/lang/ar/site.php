@@ -13,7 +13,9 @@ return [
 'all_companies'=>'عدد الشركات',
 'status'=>'الحاله',
 'order_code'=>'طلب رقم',
-
+'settings'=>'الاعدادات',
+'terms_and_conditions'=>'الشروط والأحكام',
+    'privacy_policy'=>'سياسة الخصوصية',
 'Sales Graph'=>'رسم بياني للمبيعات',
      'related_mosques'=>'المساجد المرتبطة',
      'mosques_count'=>'عدد المساجد',
@@ -49,11 +51,15 @@ return [
     'description'=>'الوصف',
     'ar'=>[
         'name'=>'الاسم باللغه العربيه',
-        'description'=>'الوصف باللغه العربيه'
+        'description'=>'الوصف باللغه العربيه',
+        'terms_and_conditions'=>' الشروط والأحكام باللغة العربية',
+        'privacy_policy'=>'سياسة الخصوصية باللغة العربية',
     ],
     'en'=>[
         'name'=>'الاسم باللغه الانجليزيه',
-        'description'=>'الوصف باللغه الانجليزيه'
+        'description'=>'الوصف باللغه الانجليزيه',
+         'terms_and_conditions'=>' الشروط والأحكام باللغة الانجليزيه',
+        'privacy_policy'=>'سياسة الخصوصية باللغة الانجليزيه',
 
     ],
     'purchase_price'=>'سعر الشراء',

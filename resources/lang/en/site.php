@@ -18,6 +18,9 @@ return [
     'first_name'=>'first name',
     'last_name'=>'last name',
     'Sales Graph'=>'Sales Graph',
+    'settings'=>'settings',
+    'terms_and_conditions'=>'terms_and_conditions',
+    'privacy_policy'=>'privacy_policy',
     'name'=>'الاسم',
     'email'=>'email',
     'action'=>'action',
@@ -51,11 +54,15 @@ return [
     'description'=>'description',
     'ar'=>[
         'name'=>'arabic name',
-        'description'=>'arabic description'
+        'description'=>'arabic description',
+        'terms_and_conditions'=>'arabic terms_and_conditions',
+        'privacy_policy'=>'arabic privacy_policy',
     ],
     'en'=>[
         'name'=>'english name',
-        'description'=>'english description'
+        'description'=>'english description',
+        'terms_and_conditions'=>'english terms_and_conditions',
+        'privacy_policy'=>'english privacy_policy',
 
     ],
     'purchase_price'=>'purchase_price',

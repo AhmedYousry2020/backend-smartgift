@@ -41,6 +41,10 @@
             @if (auth('admin')->user())
             <li> <a href="{{route('dashboard.orders.index')}}"><i class="fa fa-first-order"></i><span>@lang('site.orders')</span></a></li>
             @endif
+
+            @if (auth('admin')->user())
+            <li> <a href="{{route('dashboard.settings.index')}}"><i class="fa fa-home"></i><span>@lang('site.settings')</span></a></li>
+            @endif
         </ul>
 
 

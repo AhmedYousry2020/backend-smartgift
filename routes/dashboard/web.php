@@ -12,6 +12,7 @@ use App\Http\Controllers\Dashboard\ClientController;
 use App\Http\Controllers\Dashboard\Client\OrderController as ClientOrderController;
 use App\Http\Controllers\Dashboard\CompanyController;
 use App\Http\Controllers\Dashboard\OrderController;
+use App\Http\Controllers\Dashboard\SettingController;
 
 Route::group(
     [
@@ -38,6 +39,8 @@ Route::group(
             Route::resource('companies', CompanyController::class)->except(['show']);
             Route::resource('mosques', MosqueController::class)->except(['show']);
             Route::resource('products', ProductController::class)->except(['show']);
+            Route::resource( 'settings', SettingController::class)->except(['show']);
+
             Route::resource('users', UserController::class)->except(['show']);
             Route::resource('clients', ClientController::class)->except(['show']);
             Route::resource('clients.orders', ClientOrderController::class)->except(['show']);
