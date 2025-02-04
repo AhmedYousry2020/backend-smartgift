@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartResource;
+use App\Http\Resources\OrderMediaResource;
 use App\Http\Resources\OrderResource;
 use App\Http\Traits\HttpResponsesTrait;
 use App\Models\Category;
@@ -11,6 +12,7 @@ use App\Models\Mosque;
 use App\Models\Order;
 use App\Models\OrderCategory;
 use App\Models\OrderDetail;
+use App\Models\OrderMedia;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -163,6 +165,10 @@ class OrderController extends Controller
 
     }
 
-
+    public function getMedia($orderId)
+    {
+        $orderMedia = OrderMedia::where('order_id',$orderId)->get();
+        return $this->success(message: __('My Order Media'), data: OrderMediaResource::collection($orderMedia), status: 200);
+    }
 
 }

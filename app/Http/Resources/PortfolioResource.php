@@ -17,14 +17,7 @@ class PortfolioResource extends JsonResource
         return [
             'id' => $this->id,
             'type' => $this->type, // 'video' or 'images'
-            'title' => $this->translations->first()->title,
-            'description' => $this->translations->first()->description,
-            'media' => $this->media->map(function ($media) {
-                return [
-                    'id' => $media->id,
-                    'media_path' => asset('storage/' . $media->media_path),
-                ];
-            }),
+            'media_path' => asset( $this->media_path),
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

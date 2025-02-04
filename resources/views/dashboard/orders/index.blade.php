@@ -78,8 +78,15 @@
                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>@lang('site.delete')</button>
                                    </form>
                                    <a href="{{ route('dashboard.invoice.download', ['id' => $order->id]) }}" class="btn btn-success">
-                                    تحميل الفاتورة
-                                </a>
+                                    {{__('site.download invoice')}}
+                                    </a>
+
+                                    <a href="{{ route('dashboard.order.media.index', ['orderId' => $order->id]) }}" class="btn btn-info">
+                                       {{__('site.View Media')}}
+                                    </a>
+
+
+
                 </td>
 
             </tr>

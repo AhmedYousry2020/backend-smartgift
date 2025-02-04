@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\PortfolioController;
 use App\Http\Controllers\Dashboard\MosqueController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -12,7 +13,9 @@ use App\Http\Controllers\Dashboard\ClientController;
 use App\Http\Controllers\Dashboard\Client\OrderController as ClientOrderController;
 use App\Http\Controllers\Dashboard\CompanyController;
 use App\Http\Controllers\Dashboard\OrderController;
+use App\Http\Controllers\Dashboard\OrderMediaController;
 use App\Http\Controllers\Dashboard\SettingController;
+use App\Models\Portfolio;
 
 Route::group(
     [
@@ -48,7 +51,16 @@ Route::group(
             Route::get('/invoice/{id}/download', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
             Route::resource('orders', OrderController::class)->except(['show']);
 
+            Route::get('order/{orderId}/media', [OrderMediaController::class, 'index'])->name('order.media.index');
+            Route::post('order/media/store', [OrderMediaController::class, 'store'])->name('order.media.store');
+            Route::delete('order/media/{id}', [OrderMediaController::class, 'destroy'])->name('order.media.delete');
+
+            Route::post('portfolio/media/store', [PortfolioController::class, 'store'])->name('portfolio.media.store');
+            Route::get('portfolio/media', [PortfolioController::class, 'index'])->name('portfolio.media.index');
+            Route::delete('/portfolio/media/{id}', [PortfolioController::class, 'destroy'])->name('portfolio.media.delete');
+
             Route::get('/orders/{order}/products', [OrderController::class, 'products'])->name('orders.products');
+
         });
 
     } // <== Closing bracket for Route::group()

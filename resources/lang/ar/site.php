@@ -8,6 +8,16 @@ return [
      'mosques'=>'المساجد',
      'cities'=>'المدن',
      'invoice'=>'الفاتورة',
+     'download invoice'=>'تحميل الفاتورة
+',
+'upload_media'=>'تحميل الوسائط',
+'order_media'=>'وسائط الطلب',
+'upload'=>'تحميل',
+'choose_file'=>'اختر ملف',
+'portfolio_media'=>'اعمالنا',
+'portfolio'=>'اعمالنا',
+
+'View Media'=>'المعرض',
     'all_cities'=>'كل المدن',
     'bottle_count' => 'عدد الزجاجات',
 'all_companies'=>'عدد الشركات',

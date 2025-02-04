@@ -17,6 +17,11 @@ class Order extends Model
     {
         return $this->hasMany(OrderCategory::class);
     }
+
+    public function orderMedia()
+    {
+        return $this->hasMany(OrderMedia::class);
+    }
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -28,4 +33,6 @@ class Order extends Model
         $currency = app()->getLocale() === 'ar' ? 'دينار كويتي' : 'KWD';
         return number_format($this->total_price, 2) . ' ' . $currency;
     }
+
+
 }

@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('portfolios', function (Blueprint $table) {
-            $table->id();
-            $table->string('type'); // 'video' or 'images'
-            $table->timestamps();
+        Schema::table('portfolios', function (Blueprint $table) {
+            $table->string('media_path');
+
         });
-
-
     }
 
     /**
@@ -25,8 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('portfolio_media');
-        Schema::dropIfExists('portfolio_translations');
-        Schema::dropIfExists('portfolios');
+        //
     }
 };
