@@ -90,16 +90,16 @@
             <tr>
                 <td>{{ $item->product->name }}</td>
                 <td>{{ $item->quantity }}</td>
-                <td>{{ number_format($item->price, 2) }} ريال سعودي</td>
-                <td>{{ number_format($item->quantity * $item->price, 2) }} ريال سعودي</td>
+                <td>{{ number_format($item->price, 2) }} {{$invoice->currency}}</td>
+                <td>{{ number_format($item->quantity * $item->price, 2) }} {{$invoice->currency}}</td>
             </tr>
         @endforeach
         <tr>
             <td colspan="4">
-                <strong>الإجمالي: </strong>{{ number_format($invoice->total_price, 2) }} ريال سعودي
+                <strong>الإجمالي: </strong>{{ number_format($invoice->total_price, 2) }} {{$invoice->currency}}
             </td>
         </tr>
-        
+
     </tbody>
 </table>
 

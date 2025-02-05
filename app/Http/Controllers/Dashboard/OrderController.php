@@ -39,13 +39,14 @@ class OrderController extends Controller
         // Find the invoice from the database
         $invoice = Order::with('user', 'orderDetails.product')->findOrFail($invoiceId);
         $total_with_arabic = Numbers::TafqeetMoney($invoice->total_price);
-
+        $currency = app()->getLocale() === 'ar' ? 'دينار كويتي' : 'KWD';
         $invoice['total_with_arabic'] = $total_with_arabic;
+        $invoice['currency'] = $currency;
         // Generate PDF from the Blade view
         $pdf = PDF::loadView('pdf.invoice', compact('invoice'));
 
         // Download the generated PDF
         return $pdf->download('invoice-' . $invoice->id . '.pdf');
     }
-    
+
 }
