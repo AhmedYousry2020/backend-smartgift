@@ -104,7 +104,7 @@
 </table>
 
 <div class="invoice-total">
-    <strong>المجموع الكلي: </strong> {{ $invoice->total_with_arabic}} ريال سعودي
+    <strong>المجموع الكلي: </strong> {{ $invoice->total_with_arabic}} {{$invoice->currency}}
 
 </div>
 
