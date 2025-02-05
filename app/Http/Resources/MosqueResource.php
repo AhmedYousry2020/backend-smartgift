@@ -24,6 +24,7 @@ class MosqueResource extends JsonResource
             'lat'=>$this->lat,
             'lng'=>$this->lng,
             'address'=>$this->address,
+            'available'=>$this->available,
             'image'=>$this->image_path,
             // Add any other fields you'd like to expose
         ];

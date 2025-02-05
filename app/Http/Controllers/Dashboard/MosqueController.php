@@ -139,4 +139,12 @@ class MosqueController extends Controller
         return redirect()->route('dashboard.mosques.index');
 
     }
+    public function toggleAvailability(Request $request)
+    {
+        $mosque = Mosque::findOrFail($request->mosque_id);
+        $mosque->available = $request->available;
+        $mosque->save();
+
+        return response()->json(['message' => __('site.Mosque availability updated successfully!')]);
+    }
 }

@@ -61,9 +61,9 @@
                             <img src="{{asset('storage/uploads/user_images/default.png')}}" style="width:100px" class="img-thumbnail image-preview" alt="">
                          </div>
 
-                         <div class='form-group'>
+                         <div class='form-group' >
                             <label>@lang('site.categories')</label>
-                            <select name='category_id' class='form-control'>
+                            <select name='category_id' class='form-control' style="height:38px">
                            <option value=''>@lang('site.all_categories')</option>
                             @foreach($categories as $category)
                             <option value='{{$category->id}}' <?php if(old('category_id') == $category->id) echo 'selected' ?>>{{$category->name}}</option>
@@ -72,7 +72,7 @@
                             </div>
                             <div class='form-group'>
                                 <label>@lang('site.cities')</label>
-                                <select name='city_id' class='form-control'>
+                                <select name='city_id' class='form-control' style="height:38px">
                                <option value=''>@lang('site.all_cities')</option>
                                 @foreach($cities as $city)
                                 <option value='{{$city->id}}' <?php if(old('city_id') == $city->id) echo 'selected' ?>>{{$city->name}}</option>

@@ -21,14 +21,14 @@
                 <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <h3>{{ $categories->count() }}</h3>
+                            <h3>{{ $mosques->count() }}</h3>
 
-                            <p>@lang('site.categories')</p>
+                            <p>@lang('site.mosques')</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="{{ route('dashboard.categories.index') }}" class="small-box-footer">@lang('site.read') <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('dashboard.mosques.index') }}" class="small-box-footer">@lang('site.read') <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
@@ -66,14 +66,14 @@
                 <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-yellow">
                         <div class="inner">
-                            <h3>{{ $users->count() }}</h3>
+                            <h3>{{ $orders->count() }}</h3>
 
-                            <p>@lang('site.users')</p>
+                            <p>@lang('site.orders')</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-users"></i>
                         </div>
-                        <a href="{{ route('dashboard.users.index') }}" class="small-box-footer">@lang('site.read') <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('dashboard.orders.index') }}" class="small-box-footer">@lang('site.read') <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 

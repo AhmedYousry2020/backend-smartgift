@@ -38,7 +38,7 @@ Route::group([
     Route::get('/my-orders', [OrderController::class, 'getMyOrders']);
     Route::get('/orders/last-activities/{limit?}', [OrderController::class, 'lastActivities']);
     Route::get('order/{orderId}/media', [OrderController::class, 'getMedia'])->name('order.media.index');
-
+    Route::post('/orders/remake/{orderId}', [OrderController::class, 'remakeOrder']);
 
 
     Route::get('/portfolios', [PortfolioController::class, 'index']); // List all portfolios

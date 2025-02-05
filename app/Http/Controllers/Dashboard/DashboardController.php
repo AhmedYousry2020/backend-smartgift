@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\Mosque;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -15,10 +16,10 @@ class DashboardController extends Controller
 {
  public function index(){
 
-$categories = Category::all();
+$mosques = Mosque::all();
 $products = Product::all();
 $clients = User::all();
-$users = Admin::all();
+$orders = Order::all();
 $sales_data = Order::select(
     DB::raw('YEAR(created_at) as year'),
     DB::raw('MONTH(created_at) as month'),
@@ -26,7 +27,7 @@ $sales_data = Order::select(
 )
 ->groupBy('year', 'month') // Add 'year' in the GROUP BY clause
 ->get();
-   return view('dashboard.index',compact('categories','products','users','clients','sales_data'));
+   return view('dashboard.index',compact('mosques','products','orders','clients','sales_data'));
 
  }
 }

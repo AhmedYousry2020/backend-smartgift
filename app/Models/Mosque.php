@@ -11,7 +11,7 @@ class Mosque extends Model implements TranslatableContract
 {
     use HasFactory, Translatable;
 
-    protected $fillable = ['lat','lng','address','city_id','is_high_need','category_id','image'];
+    protected $fillable = ['lat','lng','address','city_id','is_high_need','category_id','image','available'];
     public $translatedAttributes = ['name'];
 
     public function city(){

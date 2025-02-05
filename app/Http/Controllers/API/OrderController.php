@@ -171,4 +171,64 @@ class OrderController extends Controller
         return $this->success(message: __('My Order Media'), data: OrderMediaResource::collection($orderMedia), status: 200);
     }
 
+    public function remakeOrder($orderId)
+    {
+        // Find the old order by ID
+        $oldOrder = Order::with(['orderDetails.product', 'orderCategories.category'])->find($orderId);
+
+        if (!$oldOrder) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+        $lastOrder = Order::orderBy('id', 'desc')->first();
+        $nextOrderCode = '#1'; // default to #1 if no orders exist yet
+
+        if ($lastOrder) {
+            $lastOrderNumber = (int)substr($lastOrder->order_code, 1);
+            $nextOrderCode = '#' . ($lastOrderNumber + 1);
+        }
+        // Start by creating a new order using the same user_id as the old one
+        $newOrder = Order::create([
+            'order_type' => $oldOrder->order_type,
+            'user_id' => $oldOrder->user_id,
+            'status' => 'pending',  // Default status can be 'pending'
+            'total_price' => 0,  // Will calculate the price after creating order details
+            'order_code' => $nextOrderCode,  // You can reuse the code generation logic
+        ]);
+
+        $totalPrice = 0;
+
+        // Remake the order details from the old order
+        foreach ($oldOrder->orderDetails as $orderDetail) {
+            // Remake the product orders (recreate them for the new order)
+            OrderDetail::create([
+                'order_id' => $newOrder->id,
+                'product_id' => $orderDetail->product_id,
+                'mosque_id' => $orderDetail->mosque_id, // If it's a mosque-based order
+                'quantity' => $orderDetail->quantity,
+                'price' => $orderDetail->price,
+                'total_price' => $orderDetail->total_price,
+            ]);
+
+            // Update the total price
+            $totalPrice += $orderDetail->total_price;
+        }
+
+        // If the old order had categories (for high need orders), remake the order categories
+        foreach ($oldOrder->orderCategories as $orderCategory) {
+            OrderCategory::create([
+                'order_id' => $newOrder->id,
+                'category_id' => $orderCategory->category_id,
+            ]);
+        }
+
+        // Update the total price of the new order
+        $newOrder->total_price = $totalPrice;
+        $newOrder->save();
+
+        // Return the response with the newly created order
+        return $this->success(message: __('Order Remade Successfully'), data: new OrderResource($newOrder), status: 200);
+    }
+
+
+
 }

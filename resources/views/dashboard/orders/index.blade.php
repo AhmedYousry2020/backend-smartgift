@@ -31,11 +31,19 @@
 
                 <div class="row">
 
-                    <div class="col-md-8">
+                    <div class="col-md-3">
                         <input type="text" name="search" class="form-control" placeholder="@lang('site.search')" value="{{ request()->search }}">
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <input type="date" name="start_date" class="form-control" value="{{ request()->start_date }}">
+                    </div>
+
+                    <div class="col-md-3">
+                        <input type="date" name="end_date" class="form-control" value="{{ request()->end_date }}">
+                    </div>
+
+                    <div class="col-md-3">
                         <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> @lang('site.search')</button>
                     </div>
 
@@ -64,7 +72,9 @@
             <tr>
                 <td>{{ $order->order_code }}</td>
 
-                <td>{{ $order->user->first_name }} {{$order->user->last_name }}</td>
+                <td>  <a href="{{ route('dashboard.users.edit', $order->user->id) }}">
+                    {{ $order->user->first_name }} {{ $order->user->last_name }}
+                </a></td>
                 <td>{{ $order->formatted_total_price }}</td>
                 <td>{{ $order->status }}</td>
                 <td>{{ $order->created_at->toFormattedDateString() }}</td>

@@ -11,12 +11,22 @@ class OrderController extends Controller
 {
     public function index(Request $request){
 
-        $orders = Order::whereHas('user',function($q) use($request){
+        $orders = Order::where(function ($query) use ($request) {
+            if ($request->search) {
+                $query->where('order_code', 'like', '%' . $request->search . '%')
+                      ->orWhereHas('user', function ($q) use ($request) {
+                          $q->where('first_name', 'like', '%' . $request->search . '%')
+                            ->orWhere('last_name', 'like', '%' . $request->search . '%')
+                          ;
+                      });
+            }
+        });
 
-            return $q->where('first_name','like','%'.$request->search.'%');
+        if ($request->start_date && $request->end_date) {
+            $orders->whereBetween('created_at', [$request->start_date, $request->end_date]);
+        }
 
-        })->latest()->paginate(3);
-
+        $orders = $orders->latest()->paginate(5);
 
         return view('dashboard.orders.index',compact('orders'));
     }

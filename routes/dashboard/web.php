@@ -41,6 +41,8 @@ Route::group(
             Route::resource('categories', CategoryController::class)->except(['show']);
             Route::resource('companies', CompanyController::class)->except(['show']);
             Route::resource('mosques', MosqueController::class)->except(['show']);
+            Route::post('/mosques/toggle-availability', [MosqueController::class, 'toggleAvailability'])->name('mosques.toggleAvailability');
+
             Route::resource('products', ProductController::class)->except(['show']);
             Route::resource( 'settings', SettingController::class)->except(['show']);
 

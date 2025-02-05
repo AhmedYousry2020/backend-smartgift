@@ -98,7 +98,62 @@
     <link rel="stylesheet" href="{{ asset('dashboard_files/plugins/icheck/all.css') }}">
 
     {{--html in  ie--}}
+    <style>
+        /* Toggle Switch Style */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+        }
 
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 25px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4c7eaf;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Round slider */
+        .slider.round {
+            border-radius: 25px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -272,6 +327,47 @@
     });//end of ready
 
 </script>
+<script>
+    $(document).ready(function () {
+        $('.toggle-availability').change(function () {
+            let mosqueId = $(this).data('id');
+            let available = $(this).is(':checked') ? 1 : 0;
+
+            $.ajax({
+                url: "{{ route('dashboard.mosques.toggleAvailability') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    mosque_id: mosqueId,
+                    available: available
+                },
+                success: function (response) {
+                    new Noty({
+                    type: 'success',
+                    layout: 'topRight',
+                    text: response.message,
+                    timeout: 2000,
+                    killer: true
+                }).show();
+                },
+                error: function (xhr) {
+                    alert("Something went wrong!");
+                }
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("select").forEach(function (select) {
+            select.addEventListener("change", function () {
+                if (this.value) {
+                    window.location.href = this.value;
+                }
+            });
+        });
+    });
+    </script>
 @stack('scripts')
 </body>
 </html>

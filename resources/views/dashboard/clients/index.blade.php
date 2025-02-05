@@ -40,6 +40,8 @@
 
                                <th>@lang('site.phone')</th>
                                <th>@lang('site.status')</th>
+                               <th>@lang('site.orders')</th> <!-- Add This Column -->
+
                                {{-- <th>@lang('site.add_order')</th> --}}
 
                                <th>@lang('site.action')</th>
@@ -56,6 +58,17 @@
                                {{-- @if(auth()->user()->hasPermission('create_orders'))
                                <td><a href="{{route('dashboard.clients.orders.create',$client->id)}}" class="btn btn-primary btn-sm">@lang('site.add_order')</a></td>
                                @endif --}}
+                                <!-- Orders Dropdown -->
+                            <td>
+                                <select class="form-control">
+                                    <option value="">@lang('site.select_order')</option>
+                                    @foreach($client->orders as $order)
+                                        <option value="{{ route('dashboard.orders.index',['search' => $order->order_code]) }}">
+                                            {{__('site.order')}} {{ $order->order_code }} - {{ $order->created_at->format('Y-m-d') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
                                <td>
                                        <a href="{{route('dashboard.clients.edit',$client->id)}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>@lang('site.edit')</a>
 

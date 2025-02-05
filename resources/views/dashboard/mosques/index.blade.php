@@ -40,6 +40,8 @@
                                <th>@lang('site.address')</th>
                                <th>@lang('site.image')</th>
                                <th>@lang('site.category')</th>
+                               <th>@lang('site.available')</th> <!-- Add a column for the switch -->
+
                                <th>@lang('site.action')</th>
                            </tr>
                            </thead>
@@ -52,6 +54,14 @@
                                <td><img src="{{$mosque->image_path}}" alt="" style="width: 90px;" class="img-thumbnail"></td>
 
                                <td>{{$mosque->category->name}} </td>
+                                <!-- Toggle switch for availability -->
+                            <td>
+                                <label class="switch">
+                                    <input type="checkbox" class="toggle-availability" data-id="{{$mosque->id}}" {{ $mosque->available ? 'checked' : '' }}>
+                                    <span class="slider round"></span>
+                                </label>
+
+                            </td>
                                <td>
                                        <a href="{{route('dashboard.mosques.edit',$mosque->id)}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>@lang('site.edit')</a>
                                    <form method="post" class="delete" action="{{route('dashboard.mosques.destroy',$mosque->id)}}" style="display: inline-block">
