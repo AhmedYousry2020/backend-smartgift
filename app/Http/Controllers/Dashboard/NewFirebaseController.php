@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Exception;
 
 class NewFirebaseController extends Controller
 {
     public function sendIOSNotification($tokens,$json,$type = null, $id = null)
     {
         // new implementation
-        $serviceAccountPath = storage_path() . '/json/firebase_credentials.json';
+        $serviceAccountPath = storage_path() . '/json/kharelmadena-db58e-firebase-adminsdk-fbsvc-d0ba1c8adb.json';
     $serviceAccount = json_decode(file_get_contents($serviceAccountPath), true);
 
     $privateKey = $serviceAccount['private_key'];
@@ -118,7 +119,7 @@ class NewFirebaseController extends Controller
     public function sendAndroidNotification($tokens,$json)
     {
         // Step 1: Load your Firebase service account JSON
-   $serviceAccountPath = storage_path() . '/json/firebase_credentials.json';
+   $serviceAccountPath = storage_path() . '/json/kharelmadena-db58e-firebase-adminsdk-fbsvc-d0ba1c8adb.json';
     $serviceAccount = json_decode(file_get_contents($serviceAccountPath), true);
     $privateKey = $serviceAccount['private_key'];
     $clientEmail = $serviceAccount['client_email'];
@@ -241,51 +242,6 @@ class NewFirebaseController extends Controller
 
     }
 
-
-
-    public function sendWebNotification($tokens, $json)
-    {
-        if (is_array($tokens)) {
-            $tokenIds = $tokens;
-        } else {
-            $tokenIds = [$tokens];
-        }
-
-        // $tokenIds = array("fy8rAVKFwIg:APA91bG_xokMtf3I61NFPbor3eucwCb6RFYB4u_xvZ3PFg7sXEm517VgvwmV8hP61F9i8vkO5vknXW8kd5aOsnhV71HsoplhKGNXQS7_LMZkgw-TbpUTpVpIbNIuNG2cipvcSL-jQYLt" );
-        $serverKey = 'AAAAConvqBg:APA91bHxu8Kit3-Bq6cQmN09cysgAHCxpMO1W_ZTV8MxwBGfOrq8JkUMQOosyDWxSEJd62dPDrmGICELjD943fwVbOIZ4R4LTrv67wDfOhatYYYY1S5bA9gUDo9mnk7vPrF7qBg8uXG-';
-
-        $fields = array(
-            'webpush' => array(
-                'notification' => $json,
-            ),
-            'registration_ids' => $tokenIds,
-        );
-
-        $headers = array(
-            'Authorization: key=' . $serverKey,
-            'Content-Type: application/json',
-        );
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-        $result = curl_exec($ch);
-
-        if ($result === FALSE) {
-            die('FCM Send Error: ' . curl_error($ch));
-        }
-
-        $result = json_decode($result, true);
-        curl_close($ch);
-
-        $response['firebase'] = $result;
-        $response['json'] = $fields;
-        return $response;
-    }
 
 
 

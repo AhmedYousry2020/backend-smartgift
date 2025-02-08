@@ -15,12 +15,12 @@ class NotificationController extends Controller
 {
     public function index()
     {
-        return view('PushNotifications.index', ['notifications' => PushedNotification::latest()->paginate(20)]);
+        return view('dashboard.PushNotifications.index', ['notifications' => PushedNotification::latest()->paginate(20)]);
     }
 
     public function create()
     {
-        return view('PushNotifications.store');
+        return view('dashboard.PushNotifications.store');
     }
 
     public function store(Request $request)

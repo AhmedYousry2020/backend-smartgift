@@ -12,10 +12,11 @@ use App\Http\Controllers\Dashboard\LoginController;
 use App\Http\Controllers\Dashboard\ClientController;
 use App\Http\Controllers\Dashboard\Client\OrderController as ClientOrderController;
 use App\Http\Controllers\Dashboard\CompanyController;
+use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\OrderController;
 use App\Http\Controllers\Dashboard\OrderMediaController;
 use App\Http\Controllers\Dashboard\SettingController;
-use App\Models\Portfolio;
+
 
 Route::group(
     [
@@ -37,6 +38,7 @@ Route::group(
         Route::prefix('dashboard')->middleware('admin')->name('dashboard.')->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('index');
             Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+            Route::resource('notifications', NotificationController::class);
 
             Route::resource('categories', CategoryController::class)->except(['show']);
             Route::resource('companies', CompanyController::class)->except(['show']);

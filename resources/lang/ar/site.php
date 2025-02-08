@@ -19,6 +19,8 @@ return [
 'available'=>'متاح',
 'View Media'=>'المعرض',
 'order'=>'طلب',
+'notifications'=>'الإشعارات',
+'title'=>'العنوان',
     'all_cities'=>'كل المدن',
     'bottle_count' => 'عدد الزجاجات',
 'all_companies'=>'عدد الشركات',

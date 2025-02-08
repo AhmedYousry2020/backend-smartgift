@@ -27,6 +27,9 @@ return [
     'choose_file'=>'choose_file',
     'portfolio'=>'portfolio',
     'order'=>'order',
+    'title'=>'title',
+
+    'notifications'=>'notifications',
     'Mosque availability updated successfully!'=>'Mosque availability updated successfully!',
 'select_order'=>'select_order',
     'portfolio_media'=>'portfolio_media',
