@@ -49,4 +49,8 @@ Route::group([
 
     Route::get('/sliders', action: [SliderController::class, 'index']); // List all portfolios
 
+    Route::post('update-user-token',[AuthController::class,'updateUserToken']);
+    Route::get('unread-messages-count', [AuthController::class,'unReadMessagesCount']);
+    Route::get('read-notifications', [AuthController::class,'readNotification']);
+
 });

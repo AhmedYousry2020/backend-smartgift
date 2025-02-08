@@ -13,10 +13,11 @@ use App\Http\Requests\VerifyRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Traits\HttpResponsesTrait;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOption\Some;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -47,6 +48,17 @@ class AuthController extends Controller
                 'phone_verified_at' => null,
                 'create_otp_date'   => now(),
             ]);
+            // Save the device information in user_devices table
+            if(!empty($request->device_type) && !empty($request->device_token))
+            {
+                DB::table('user_devices')->insert([
+                    'user_id' => $user->id,
+                    'device_token' => $request->device_token,
+                    'device_type' => $request->device_type,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
             //$this->sendOtp($data['phone'] , $code);
             $data = new UserResource($user);
             DB::commit();
@@ -144,6 +156,35 @@ class AuthController extends Controller
             'phone_verified_at' => null,
             'create_otp_date'   => date('Y-m-d H:i:s'),
         ]);
+        if(!empty($request->device_type) && !empty($request->device_token))
+        {
+            $existingDevice = DB::table('user_devices')
+            ->where('user_id', $user->id)
+            ->where('device_type', $request->device_type)
+            ->where('device_token', $request->device_token)
+            ->first();
+
+            if($existingDevice)
+            {
+                DB::table('user_devices')
+                    ->where('id',$existingDevice->id)
+                    ->update([
+                        'device_token' => $request->device_token,
+                        'updated_at' => now(),
+                    ]);
+            }else{
+                DB::table('user_devices')->insert([
+                    'user_id' => $user->id,
+                    'device_token' => $request->device_token,
+                    'device_type' => $request->device_type,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+
+        }
+
         //$this->sendOtp($data['phone'] , $code);
 
         return $this->success(__('Data Returned Successfully'), new UserResource($user), 200);
@@ -208,6 +249,74 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return $this->errors(__('Something went wrong'), ['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function updateUserToken(Request $request)
+    {
+        try{
+            $request->validate([
+                'device_token' => 'required|string|max:255',
+                'device_type' => 'nullable|string|in:web,android,ios',
+            ]);
+            // Retrieve the authenticated user
+            $user = auth()->user();
+            $existingDevice = DB::table('user_devices')
+            ->where('user_id', $user->id)
+            ->where('device_token', $request->device_token)
+            ->first();
+
+            if ($existingDevice) {
+                // Update the device token if it has changed
+                    DB::table('user_devices')
+                        ->where('id', $existingDevice->id)
+                        ->update([
+                            'device_token' => $request->device_token,
+                            'updated_at' => now(),
+                        ]);
+
+            } else {
+                // Insert a new device entry if not already present
+                DB::table('user_devices')->insert([
+                    'user_id' => $user->id,
+                    'device_token' => $request->device_token,
+                    'device_type' => $request->device_type ?? 'android',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            return $this->success('Updated successfully',200);
+
+        }catch (\Exception $e){
+
+            return $this->errors('Something error',400);
+
+        }
+
+
+    }
+    public function unReadMessagesCount(){
+
+        $notifications  = DB::table('notifications')
+            ->where('notifiable_id', Auth::guard('api')->id())->whereNull('read_at')->count();
+
+        return response([
+            'status' => 200,
+            'notifications_count' => (int)$notifications,
+        ]);
+
+    }
+
+    public function readNotification(){
+
+        DB::table('notifications')->where('notifiable_id', Auth::guard('api')->id())->update(['read_at'=>Carbon::now()]);
+
+        return response([
+            'status' => 200,
+            'message' => 'Read notifications successfully',
+        ]);
+
+
     }
 
 }

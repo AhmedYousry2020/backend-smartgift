@@ -32,6 +32,8 @@ class SignUpRequest extends FormRequest
             'last_name'             => ['required','string'],
             'phone'                 => ['required','regex:/^([0-9\s\-\+\(\)]*)$/','max:20','min:7','unique:users,phone'],
             'accepted_terms'        => ['required'],
+            'device_token'=>'nullable|string|max:255',
+            'device_type'=>'nullable|string|max:255|in:web,android,ios',
         ];
     }
 

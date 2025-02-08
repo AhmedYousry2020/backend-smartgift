@@ -30,6 +30,9 @@ class SignInRequest extends FormRequest
     {
         return [
             'phone'    => ['required','string','exists:users,phone'],
+            'device_token'=>'nullable|string|max:255',
+            'device_type'=>'nullable|string|max:255|in:web,android,ios',
+
         ];
     }
 

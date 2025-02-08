@@ -72,4 +72,9 @@ class User extends Authenticatable implements JWTSubject
     public function orders(){
         return $this->hasMany(Order::class);
     }
+
+    public function devices()
+    {
+        return $this->hasMany(UserDevice::class);
+    }
 }
