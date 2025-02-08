@@ -50,7 +50,7 @@ class OrderController extends Controller
         $invoice = Order::with('user', 'orderDetails.product')->findOrFail($invoiceId);
         $currency = app()->getLocale() === 'ar' ? 'دينار كويتي' : 'KWD';
 
-        $total_with_arabic = Numbers::TafqeetMoney($invoice->total_price, $currency);
+        $total_with_arabic = Numbers::TafqeetMoney($invoice->total_price,'دينار كويتي');
         $invoice['total_with_arabic'] = $total_with_arabic;
         $invoice['currency'] = $currency;
         // Generate PDF from the Blade view
