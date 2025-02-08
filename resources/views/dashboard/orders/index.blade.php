@@ -72,7 +72,7 @@
             <tr>
                 <td>{{ $order->order_code }}</td>
 
-                <td>  <a href="{{ route('dashboard.users.edit', $order->user->id) }}">
+                <td>  <a href="{{ route('dashboard.clients.edit', $order->user->id) }}">
                     {{ $order->user->first_name }} {{ $order->user->last_name }}
                 </a></td>
                 <td>{{ $order->formatted_total_price }}</td>
