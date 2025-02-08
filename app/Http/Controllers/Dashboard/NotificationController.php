@@ -47,6 +47,6 @@ class NotificationController extends Controller
         }
 
 
-        return redirect()->route('notifications.index')->with('status', __('general.successfully_completed'));
+        return redirect()->route('dashboard.notifications.index')->with('status', __('general.successfully_completed'));
     }
 }

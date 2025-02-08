@@ -32,9 +32,9 @@
 
                          <div class="form-group">
                             <!-- site.ar.description-->
-                                <label> @lang('site.description')</label>
+                                <label> @lang('site.content')</label>
                             <!--ar[name] -->
-                                <textarea class="form-control ckeditor"  name="description" >{{old('description')}}</textarea>
+                                <textarea class="form-control ckeditor"  name="content" >{{old('content')}}</textarea>
                             </div>
                          </div>
                         </div>

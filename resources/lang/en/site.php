@@ -28,6 +28,10 @@ return [
     'portfolio'=>'portfolio',
     'order'=>'order',
     'title'=>'title',
+    'notification_description'=> 'notification description',
+    'registeration_date' => 'registeration date',
+    'content' => 'Template content',
+
 
     'notifications'=>'notifications',
     'Mosque availability updated successfully!'=>'Mosque availability updated successfully!',
