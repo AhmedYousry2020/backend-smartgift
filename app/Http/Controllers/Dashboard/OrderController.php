@@ -26,7 +26,7 @@ class OrderController extends Controller
             $orders->whereBetween('created_at', [$request->start_date, $request->end_date]);
         }
 
-        $orders = $orders->latest()->paginate(5);
+        $orders = $orders->latest()->paginate(10);
 
         return view('dashboard.orders.index',compact('orders'));
     }
