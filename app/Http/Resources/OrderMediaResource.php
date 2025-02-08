@@ -18,6 +18,7 @@ class OrderMediaResource extends JsonResource
                 'id'=>$this->id,
                 'order_id' => $this->order_id,
                 'media_path' => asset($this->media_path),
+                'type'=>$this->type
         ];
     }
 }
