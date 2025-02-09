@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enum\OrderStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartResource;
 use App\Http\Resources\OrderMediaResource;
@@ -55,7 +56,7 @@ class OrderController extends Controller
         $order = Order::create([
             'order_type' => $validated['order_type'],
             'user_id'=>auth()->user()->id,
-            'status' => 'pending',
+            'status' => OrderStatusEnum::NOT_COMPLETE,
             'total_price' => 0,  // will be updated later
             'order_code' => $nextOrderCode, // Store the generated order code
         ]);
@@ -141,20 +142,23 @@ class OrderController extends Controller
 
     public function lastActivities($limit = 3)
     {
-        $lastOrders = Order::with('user')->latest()->take($limit)->get();
+        $lastOrders = Order::with(['user', 'orderDetails'])->latest()->take($limit)->get();
 
         if ($lastOrders->isEmpty()) {
             return response()->json(['message' => 'No orders found'], 404);
         }
         return $this->success(message: __('Last Activity'),
          data: $lastOrders->map(function ($order) {
+            $total_quantity = $order->orderDetails->sum('quantity');
             return [
                 'id' => $order->id,
                 'user' => [
                     'id' => $order->user->id,
-                    'name' => $order->user->first_name .' '. $order->user->last_name ,
+                    'first_name' => $order->user->first_name  ,
+                    'last_name'  => $order->user->last_name
                 ],
                 'order_type' => $order->order_type,
+                'total_quantity'=>$total_quantity,
                 'status' => $order->status,
                 'total_price' => $order->total_price,
                 'created_at' => $order->created_at->toDateTimeString(),
@@ -190,7 +194,7 @@ class OrderController extends Controller
         $newOrder = Order::create([
             'order_type' => $oldOrder->order_type,
             'user_id' => $oldOrder->user_id,
-            'status' => 'pending',  // Default status can be 'pending'
+            'status' => OrderStatusEnum::NOT_COMPLETE,  // Default status can be 'pending'
             'total_price' => 0,  // Will calculate the price after creating order details
             'order_code' => $nextOrderCode,  // You can reuse the code generation logic
         ]);

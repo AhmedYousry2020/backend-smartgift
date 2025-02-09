@@ -76,7 +76,7 @@
                     {{ $order->user->first_name }} {{ $order->user->last_name }}
                 </a></td>
                 <td>{{ $order->formatted_total_price }}</td>
-                <td>{{ $order->status }}</td>
+                <td>{{ __('status.'.$order->status) }}</td>
                 <td>{{ $order->created_at->toFormattedDateString() }}</td>
                 <td>
                    <button class="btn btn-primary btn-sm order-produts" data-url="{{route('dashboard.orders.products',$order->id)}}" data-method="get">
