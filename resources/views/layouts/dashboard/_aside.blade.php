@@ -51,6 +51,10 @@
             @endif
 
             @if (auth('admin')->user())
+            <li> <a href="{{route('dashboard.slider.media.index')}}"><i class="fa fa-cubes"></i><span>@lang('site.slider')</span></a></li>
+            @endif
+
+            @if (auth('admin')->user())
             <li> <a href="{{route('dashboard.notifications.index')}}"><i class="fa fa-bell"></i><span>@lang('site.notifications')</span></a></li>
             @endif
         </ul>

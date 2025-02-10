@@ -21,6 +21,9 @@ return [
 'order'=>'طلب',
 'notification_description' => 'تفاصيل الاشعار',
     'registeration_date' => 'تاريخ التسجيل',
+    'slider'=>'الاسليدر',
+    'Confirm Order'=>'تأكيد الطلب',
+
     'content' => 'محتوى القالب',
 'notifications'=>'الإشعارات',
 'title'=>'العنوان',

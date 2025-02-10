@@ -29,6 +29,7 @@ class OrderController extends Controller
     {
         $validated = $request->validate([
             'order_type' => 'required|string|in:custom,high_need',
+            'order_for' => 'required|string|in:men,women,both',
             'category_id' => 'required_if:order_type,high_need|exists:categories,id',
 
             // Validation for "custom" order type
@@ -55,6 +56,7 @@ class OrderController extends Controller
         }
         $order = Order::create([
             'order_type' => $validated['order_type'],
+            'order_for' => $validated['order_for'],
             'user_id'=>auth()->user()->id,
             'status' => OrderStatusEnum::NOT_COMPLETE,
             'total_price' => 0,  // will be updated later
@@ -193,6 +195,7 @@ class OrderController extends Controller
         // Start by creating a new order using the same user_id as the old one
         $newOrder = Order::create([
             'order_type' => $oldOrder->order_type,
+            'order_for' => $oldOrder->order_for,
             'user_id' => $oldOrder->user_id,
             'status' => OrderStatusEnum::NOT_COMPLETE,  // Default status can be 'pending'
             'total_price' => 0,  // Will calculate the price after creating order details

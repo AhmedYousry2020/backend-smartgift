@@ -6,9 +6,9 @@
     <title>فاتورة #{{ $invoice->id }}</title>
     <style>
         body {
-            font-family: 'Amiri', sans-serif; /* Use the Arabic font */
-            direction: rtl; /* Right-to-left for Arabic text */
-            text-align: right; /* Right align text */
+            font-family: 'Amiri', sans-serif;
+            direction: rtl;
+            text-align: right;
             font-size: 12px;
         }
 
@@ -47,68 +47,101 @@
             font-size: 20px;
         }
 
-        .qrcode {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .qrcode img {
-            width: 150px;
-            height: 150px;
-        }
         .logo {
             position: absolute;
             top: 10px;
             right: 10px;
-            width: 100px; /* Adjust size of logo */
+            width: 100px;
         }
     </style>
 </head>
 <body>
+
 <!-- Add your logo image here -->
 <img src="{{ asset('dashboard_files/img/c66277aa5008d4a424a69c334f1f2d37.png') }}" alt="Logo" class="logo">
+
 <div class="invoice-header">
     <h1>فاتورة {{ $invoice->order_code }}</h1>
     <p>تاريخ الفاتورة: {{ $invoice->created_at->format('d/m/Y') }}</p>
     <p>العميل: {{ $invoice->user->first_name }} {{ $invoice->user->last_name }}</p>
     <p>رقم التلفون: {{ $invoice->user->phone }} </p>
-
 </div>
 
+<div id="print-area">
+    @if ($invoice->order_type == 'high_need')
+        {{-- High Need Orders - Display by Categories --}}
+        @foreach ($invoice->orderCategories as $category)
+            <h2 style="text-align: center; background-color: #ddd; padding: 10px;">
+                {{ $category->category->translate(app()->getLocale())->name }}
+            </h2>
 
-<table class="invoice-details">
-    <thead>
-        <tr>
-            <th>المنتج</th>
-            <th>الكمية</th>
-            <th>السعر</th>
-            <th>الإجمالي</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($invoice->orderDetails as $item)
-            <tr>
-                <td>{{ $item->product->name }}</td>
-                <td>{{ $item->quantity }}</td>
-                <td>{{ number_format($item->price, 2) }} {{$invoice->currency}}</td>
-                <td>{{ number_format($item->quantity * $item->price, 2) }} {{$invoice->currency}}</td>
-            </tr>
+            @php
+                $orderDetails = $invoice->orderDetails;
+            @endphp
+
+            @if ($orderDetails->isNotEmpty())
+                <table class="invoice-details">
+                    <thead>
+                        <tr>
+                            <th>@lang('site.name')</th>
+                            <th>@lang('site.quantity')</th>
+                            <th>@lang('site.price')</th>
+                            <th>@lang('site.total')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($orderDetails as $detail)
+                            <tr>
+                                <td>{{ $detail->product->name }}</td>
+                                <td>{{ $detail->quantity }}</td>
+                                <td>{{ number_format($detail->price, 2) }} {{$invoice->currency}}</td>
+                                <td>{{ number_format($detail->quantity * $detail->price, 2) }} {{$invoice->currency}}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p style="text-align: center;">@lang('site.no_products_in_category')</p>
+            @endif
         @endforeach
-        <tr>
-            <td colspan="4">
-                <strong>الإجمالي: </strong>{{ number_format($invoice->total_price, 2) }} {{$invoice->currency}}
-            </td>
-        </tr>
+    @else
+        {{-- Custom Orders - Display by Mosque --}}
+        @php
+            $mosques = $invoice->orderDetails->groupBy('mosque_id');
+        @endphp
 
-    </tbody>
-</table>
+        @foreach ($mosques as $mosque_id => $orderDetails)
+            <h2 style="text-align: center; background-color: #ddd; padding: 10px;">
+                {{ $orderDetails->first()->mosque->name ?? __('site.unknown_mosque') }}
+            </h2>
+
+            <table class="invoice-details">
+                <thead>
+                    <tr>
+                        <th>@lang('site.name')</th>
+                        <th>@lang('site.quantity')</th>
+                        <th>@lang('site.price')</th>
+                        <th>@lang('site.total')</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($orderDetails as $detail)
+                        <tr>
+                            <td>{{ $detail->product->name }}</td>
+                            <td>{{ $detail->quantity }}</td>
+                            <td>{{ number_format($detail->price, 2) }} {{$invoice->currency}}</td>
+                            <td>{{ number_format($detail->quantity * $detail->price, 2) }} {{$invoice->currency}}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endforeach
+    @endif
+</div>
 
 <div class="invoice-total">
-    <strong>المجموع الكلي: </strong> {{ $invoice->total_with_arabic}}
-
+    <strong>المجموع الكلي: </strong> {{ $invoice->total_with_arabic }}
 </div>
-
-
 
 </body>
 </html>

@@ -31,8 +31,8 @@ return [
     'notification_description'=> 'notification description',
     'registeration_date' => 'registeration date',
     'content' => 'Template content',
-
-
+'Confirm Order'=>'Confirm Order',
+    'slider'=>'slider',
     'notifications'=>'notifications',
     'Mosque availability updated successfully!'=>'Mosque availability updated successfully!',
 'select_order'=>'select_order',

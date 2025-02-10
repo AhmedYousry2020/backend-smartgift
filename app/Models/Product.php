@@ -29,7 +29,7 @@ class Product extends Model implements TranslatableContract
    public function getFormattedPriceAttribute($value)
    {
        $currency = app()->getLocale() === 'ar' ? 'دينار كويتي' : 'KWD';
-       return number_format($this->price, 2) . ' ' . $currency;
+       return number_format($this->price, 3) . ' ' . $currency;
    }
 
 }

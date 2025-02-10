@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Enum\OrderStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use PDF;
@@ -24,15 +25,18 @@ class OrderController extends Controller
 
         if ($request->start_date && $request->end_date) {
             $orders->whereBetween('created_at', [$request->start_date, $request->end_date]);
+        } elseif ($request->start_date) {
+            $orders->whereDate('created_at', '>=', $request->start_date);
+        } elseif ($request->end_date) {
+            $orders->whereDate('created_at', '<=', $request->end_date);
         }
-
         $orders = $orders->latest()->paginate(10);
 
         return view('dashboard.orders.index',compact('orders'));
     }
     public function products($order_id){
 
-    $order = Order::with('orderDetails.product')->find($order_id);
+    $order = Order::with(['orderDetails.product','orderCategories.category'])->find($order_id);
     return view('dashboard.orders._products',compact('order'));
     }
     public function destroy(Order $order){
@@ -47,7 +51,7 @@ class OrderController extends Controller
     public function downloadInvoice($invoiceId)
     {
         // Find the invoice from the database
-        $invoice = Order::with('user', 'orderDetails.product')->findOrFail($invoiceId);
+        $invoice = Order::with(['user', 'orderDetails.product','orderDetails.product','orderCategories.category'])->findOrFail($invoiceId);
         $currency = app()->getLocale() === 'ar' ? 'دينار كويتي' : 'KWD';
 
         $total_with_arabic = Numbers::TafqeetMoney($invoice->total_price);
@@ -59,7 +63,17 @@ class OrderController extends Controller
         $pdf = PDF::loadView('pdf.invoice', compact('invoice'));
 
         // Download the generated PDF
-        return $pdf->download('invoice-' . $invoice->id . '.pdf');
+         return $pdf->download('invoice-' . $invoice->id . '.pdf');
+    }
+
+    public function confirmOrder($orderId){
+        $order = Order::findOrFail($orderId);
+        $order->status = OrderStatusEnum::COMPLETE;
+        $order->save();
+        session()->flash('success',__('site.confirmed_successfully'));
+        return redirect()->route('dashboard.orders.index');
+
+
     }
 
 }

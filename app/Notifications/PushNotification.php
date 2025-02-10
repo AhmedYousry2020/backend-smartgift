@@ -74,7 +74,7 @@ class PushNotification extends Notification
 
         switch($this->user->device_type){
             case 'android':
-                $firebase->sendAndroidNotification($this->user->device_token, $firebase->fillAndroidJson($this->title, $this->content));
+                $firebase->sendAndroidNotification($this->user->device_token, $firebase->fillAndroidJson($this->title, $this->content,1,0));
             case 'ios':
                 $firebase->sendIOSNotification($this->user->device_token, $firebase->fillIOSJson($this->title, $this->content));
         }

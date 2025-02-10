@@ -94,7 +94,11 @@
                                     <a href="{{ route('dashboard.order.media.index', ['orderId' => $order->id]) }}" class="btn btn-info">
                                        {{__('site.View Media')}}
                                     </a>
-
+                                    @if($order->status == \App\Enum\OrderStatusEnum::PENDING)
+                                    <a href="{{ route('dashboard.order.confirmOrder', ['id' => $order->id]) }}" class="btn btn-warning">
+                                        {{__('site.Confirm Order')}}
+                                     </a>
+                                     @endif
 
 
                 </td>
