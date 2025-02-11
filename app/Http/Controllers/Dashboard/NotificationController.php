@@ -40,8 +40,10 @@ class NotificationController extends Controller
                 switch($device->device_type){
                     case 'android':
                         $firebase->sendAndroidNotification($device->device_token, $firebase->fillAndroidJson($request->title, $request->content, 1, 0));
+                        break; // Prevent falling into the next case
                     case 'ios':
                         $firebase->sendIOSNotification($device->device_token, $firebase->fillIOSJson($request->title, $request->content), 1, 0);
+                        break; // Prevent falling into the next case
                 }
             }
         }
