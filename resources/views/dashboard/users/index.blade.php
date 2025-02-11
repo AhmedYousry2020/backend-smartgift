@@ -82,16 +82,3 @@
     </div>
 
 @endsection
-@push('scripts')
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll("select").forEach(function (select) {
-            select.addEventListener("change", function () {
-                if (this.value) {
-                    window.location.href = this.value;
-                }
-            });
-        });
-    });
-    </script>
-@endpush
