@@ -336,7 +336,7 @@ var n = new Noty({
     killer: true,
     buttons: [
         Noty.button("@lang('site.yes')", 'btn btn-success mr-2', function () {
-            window.location.href = that.attr('href'); 
+            window.location.href = that.attr('href');
                 }),
 
         Noty.button("@lang('site.no')", 'btn btn-primary mr-2', function () {
