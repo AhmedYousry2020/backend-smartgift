@@ -32,6 +32,8 @@ return [
     'registeration_date' => 'registeration date',
     'content' => 'Template content',
 'Confirm Order'=>'Confirm Order',
+'confirm_order'=>'confirm order',
+'confirmed_successfully'=>'confirmed successfully',
     'slider'=>'slider',
     'notifications'=>'notifications',
     'Mosque availability updated successfully!'=>'Mosque availability updated successfully!',

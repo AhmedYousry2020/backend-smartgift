@@ -322,6 +322,35 @@
 
         });//end of delete
 
+
+  //delete
+  $('.confirm').click(function (e) {
+
+var that = $(this)
+
+e.preventDefault();
+
+var n = new Noty({
+    text: "@lang('site.confirm_order')",
+    type: "warning",
+    killer: true,
+    buttons: [
+        Noty.button("@lang('site.yes')", 'btn btn-success mr-2', function () {
+            window.location.href = that.attr('href'); 
+                }),
+
+        Noty.button("@lang('site.no')", 'btn btn-primary mr-2', function () {
+            n.close();
+        })
+    ]
+});
+
+n.show();
+
+});//end of delete
+
+
+
         CKEDITOR.config.language =  "{{ app()->getLocale() }}";
 
     });//end of ready

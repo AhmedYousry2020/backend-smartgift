@@ -96,7 +96,7 @@
                                     </a>
                                     @endif
                                     @if($order->status == \App\Enum\OrderStatusEnum::PENDING)
-                                    <a href="{{ route('dashboard.order.confirmOrder', ['id' => $order->id]) }}" class="btn btn-warning">
+                                    <a href="{{ route('dashboard.order.confirmOrder', ['id' => $order->id]) }}" class="btn btn-warning confirm">
                                         {{__('site.Confirm Order')}}
                                      </a>
                                      @endif

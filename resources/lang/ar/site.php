@@ -23,7 +23,9 @@ return [
     'registeration_date' => 'تاريخ التسجيل',
     'slider'=>'الاسليدر',
     'Confirm Order'=>'تأكيد الطلب',
+'confirm_order'=>'الموافقة على الطلب',
 
+'confirmed_successfully'=>'تم الموافقة بنجاح',
     'content' => 'محتوى القالب',
 'notifications'=>'الإشعارات',
 'title'=>'العنوان',

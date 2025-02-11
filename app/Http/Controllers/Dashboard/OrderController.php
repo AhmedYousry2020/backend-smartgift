@@ -73,7 +73,6 @@ class OrderController extends Controller
         session()->flash('success',__('site.confirmed_successfully'));
         return redirect()->route('dashboard.orders.index');
 
-
     }
 
 }
