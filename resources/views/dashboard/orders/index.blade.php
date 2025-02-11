@@ -80,11 +80,34 @@
                 <td>{{ __('status.'.$order->status) }}</td>
                 <td>{{ __('site.'.$order->order_for) }}</td>
                 <td>
-                    <span title="{{ $order->note ?? '-----' }}">
-                        {{ $order->note ? Str::limit($order->note, 30, '...') : '-----' }}
-                    </span>
-                        
+                    @if($order->note)
+                        <button class="btn btn-info btn-sm view-note" data-note="{{ $order->note }}" data-toggle="modal" data-target="#noteModal">
+                            <i class="fa fa-info-circle"></i>
+                        </button>
+                    @else
+                        -----
+                    @endif
                 </td>
+                <!-- Order Note Modal -->
+<div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="noteModalLabel">@lang('site.note')</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalNoteContent">
+                <!-- Note content will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('site.close')</button>
+            </div>
+        </div>
+    </div>
+</div>
+
                 <td>{{ $order->created_at->toFormattedDateString() }}</td>
                 <td>
                    <button class="btn btn-primary btn-sm order-produts" data-url="{{route('dashboard.orders.products',$order->id)}}" data-method="get" style="margin-bottom:5px">
@@ -167,3 +190,13 @@
 
 </div><!-- end of content wrapper -->
 @endsection
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('.view-note').click(function() {
+            let noteContent = $(this).data('note');
+            $('#modalNoteContent').text(noteContent);
+        });
+    });
+</script>
+@endpush
