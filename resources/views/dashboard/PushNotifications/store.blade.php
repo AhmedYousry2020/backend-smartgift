@@ -34,7 +34,7 @@
                             <!-- site.ar.description-->
                                 <label> @lang('site.content')</label>
                             <!--ar[name] -->
-                                <textarea class="form-control ckeditor"  name="content" >{{old('content')}}</textarea>
+                                <input class="form-control" type="text"  name="content" value="{{old('content')}}" ></input>
                             </div>
                          </div>
                         </div>
