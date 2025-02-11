@@ -42,7 +42,7 @@ class OrderMediaController extends Controller
             $filename = time() . '.' . $media->getClientOriginalExtension();
 
             // Determine if it's an image or video
-            $folder = in_array($media->getClientOriginalExtension(), ['jpg', 'jpeg', 'PNG', 'gif']) ? 'images' : 'videos';
+            $folder = in_array($media->getClientOriginalExtension(), ['jpg', 'jpeg', 'PNG', 'gif','png','JPEG','JPG']) ? 'images' : 'videos';
 
             // Move the file to the correct directory
             $media->move(public_path("uploads/order_media/{$folder}/"), $filename);
