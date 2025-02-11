@@ -35,6 +35,8 @@ Route::group([
 
     Route::post('/order/create', [OrderController::class, 'createOrder']);
     Route::get('/orders/{id}', [OrderController::class, 'viewOrder']);
+    Route::get('/order/pay/{id}', [OrderController::class, 'pay']);
+
     Route::get('/my-orders', [OrderController::class, 'getMyOrders']);
     Route::get('/orders/last-activities/{limit?}', [OrderController::class, 'lastActivities']);
     Route::get('order/{orderId}/media', [OrderController::class, 'getMedia'])->name('order.media.index');

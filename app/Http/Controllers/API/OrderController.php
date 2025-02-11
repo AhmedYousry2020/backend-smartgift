@@ -235,7 +235,13 @@ class OrderController extends Controller
         // Return the response with the newly created order
         return $this->success(message: __('Order Remade Successfully'), data: new OrderResource($newOrder), status: 200);
     }
+    public function pay($orderId){
+        $order = Order::findOrFail($orderId);
+        $order->status = OrderStatusEnum::PENDING;
+        $order->save();
+        return $this->success(message: __('Order Remade Successfully'), data: new OrderResource($order), status: 200);
 
+    }
 
 
 }
