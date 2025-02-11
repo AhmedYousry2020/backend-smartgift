@@ -319,8 +319,8 @@ class AuthController extends Controller
 
 
     }
+    public function getNotifications(Request $request){
 
-    public function index(Request $request){
         $notifications = auth('api')->user()->notifications()->where('type', 'App\Notifications\PushNotification')->paginate($request->paginate??10);
         return $this->success('Updated successfully',new NotificationsResource($notifications),200);
       }
