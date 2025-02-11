@@ -29,6 +29,7 @@ class UserResource extends JsonResource
             'verify'             => filled($this->phone_verified_at),
             'otp'                => (config('app.enable_otp') && $this->otp)?$this->otp: '',
             'access_token'       => $this->token,
+            'device_token'       => $this->devices,
             // 'user_settings'      => SettingResource::collection($this->settings),
         ];
     }
