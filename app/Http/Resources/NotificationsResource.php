@@ -21,7 +21,7 @@ class NotificationsResource extends ResourceCollection
                 return [
                     'id' => $q->id,
                     'title'=>$q->data['title'] ?? null,
-                    'content'=>$q->data['content'] ?? null,
+                    'content' => isset($q->data['content']) ? strip_tags($q->data['content']) : null,
                     'created_at' => Carbon::parse($q->created_at)->format('Y-m-d H:i:s'),
                 ];
             }),
