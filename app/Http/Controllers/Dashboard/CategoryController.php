@@ -17,7 +17,7 @@ class CategoryController extends Controller
         if($request->input('search')){
             $categories = Category::whereTranslationLike('name','%'.$request->input('search').'%');
         }else{
-                $categories = Category::latest()->paginate(8);
+                $categories = Category::latest()->paginate(10);
         }
         return view('dashboard.categories.index',compact('categories'));
     }

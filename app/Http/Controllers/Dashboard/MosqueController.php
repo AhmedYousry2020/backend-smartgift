@@ -22,7 +22,7 @@ class MosqueController extends Controller
 
                 })->when($request->input('category_id'),function($q) use($request){
                   return $q->where('category_id','like','%'.$request->input('category_id').'%');
-                })->latest()->paginate(15);
+                })->latest()->paginate(10);
 
         return view('dashboard.mosques.index',compact('mosques'));
     }

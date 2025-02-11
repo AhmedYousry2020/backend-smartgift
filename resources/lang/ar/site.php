@@ -24,8 +24,12 @@ return [
     'slider'=>'الاسليدر',
     'Confirm Order'=>'تأكيد الطلب',
 'confirm_order'=>'الموافقة على الطلب',
-
+'both'=>'رجال وسيدات',
+'note'=>'ملاحظة',
+'men'=>'رجال',
+'women'=>'سيدات',
 'confirmed_successfully'=>'تم الموافقة بنجاح',
+'order_for'=>'نوع الطلب',
     'content' => 'محتوى القالب',
 'notifications'=>'الإشعارات',
 'title'=>'العنوان',

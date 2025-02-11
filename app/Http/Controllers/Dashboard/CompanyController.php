@@ -24,7 +24,7 @@ class CompanyController extends Controller
             $companies = Company::whereTranslationLike('name','%'.$request->input('search').'%')->latest()->paginate(3);
 
         }else{
-                $companies = Company::latest()->paginate(5);
+                $companies = Company::latest()->paginate(10);
         }
         return view('dashboard.companies.index',compact('companies'));
     }

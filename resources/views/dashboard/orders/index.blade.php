@@ -63,7 +63,8 @@
             <th>@lang('site.client_name')</th>
             <th>@lang('site.price')</th>
             <th>@lang('site.status')</th>
-
+            <th>@lang('site.order_for')</th>
+            <th>@lang('site.note')</th>
             <th>@lang('site.created_at')</th>
             <th>@lang('site.action')</th>
         </tr>
@@ -77,9 +78,16 @@
                 </a></td>
                 <td>{{ $order->formatted_total_price }}</td>
                 <td>{{ __('status.'.$order->status) }}</td>
+                <td>{{ __('site.'.$order->order_for) }}</td>
+                <td>
+                    <span title="{{ $order->note ?? '-----' }}">
+                        {{ $order->note ? Str::limit($order->note, 30, '...') : '-----' }}
+                    </span>
+                        
+                </td>
                 <td>{{ $order->created_at->toFormattedDateString() }}</td>
                 <td>
-                   <button class="btn btn-primary btn-sm order-produts" data-url="{{route('dashboard.orders.products',$order->id)}}" data-method="get">
+                   <button class="btn btn-primary btn-sm order-produts" data-url="{{route('dashboard.orders.products',$order->id)}}" data-method="get" style="margin-bottom:5px">
                   <i class="fa fa-list"></i>@lang('site.show')</button>
                                        {{-- <a href="{{route('dashboard.clients.orders.edit',['client'=>$order->user->id,'order'=>$order->id])}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>@lang('site.edit')</a> --}}
                                    <form method="post" class="delete" action="{{route('dashboard.orders.destroy',$order->id)}}" style="display: inline-block">
@@ -87,20 +95,12 @@
                                        @method('delete')
                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>@lang('site.delete')</button>
                                    </form>
-                                   <a href="{{ route('dashboard.invoice.download', ['id' => $order->id]) }}" class="btn btn-success">
-                                    {{__('site.download invoice')}}
-                                    </a>
-                                    @if($order->status == \App\Enum\OrderStatusEnum::CONFIRMED || $order->status == \App\Enum\OrderStatusEnum::COMPLETE )
-                                    <a href="{{ route('dashboard.order.media.index', ['orderId' => $order->id]) }}" class="btn btn-info">
-                                       {{__('site.View Media')}}
-                                    </a>
-                                    @endif
-                                    @if($order->status == \App\Enum\OrderStatusEnum::PENDING)
-                                    <a href="{{ route('dashboard.order.confirmOrder', ['id' => $order->id]) }}" class="btn btn-warning confirm">
-                                        {{__('site.Confirm Order')}}
-                                     </a>
-                                     @endif
 
+                                   @if($order->status == \App\Enum\OrderStatusEnum::PENDING)
+                                   <a href="{{ route('dashboard.order.confirmOrder', ['id' => $order->id]) }}" class="btn btn-warning btn-sm confirm">
+                                       <i class="fa fa-check"></i> {{__('site.Confirm Order')}}
+                                   </a>
+                               @endif
 
                 </td>
 

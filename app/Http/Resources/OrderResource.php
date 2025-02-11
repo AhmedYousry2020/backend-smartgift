@@ -20,6 +20,8 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'order_type' => $this->order_type,
             'order_for' => $this->order_for,
+            'note' => $this->note,
+
             'order_code' => $this->order_code,
             'status' => __('status.'.$this->status),  // Translate status here
             'status_num' => $this->getStatusNum($this->status), // Get status number

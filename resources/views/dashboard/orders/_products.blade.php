@@ -1,4 +1,13 @@
 <div id="print-area">
+    <a href="{{ route('dashboard.invoice.download', ['id' => $order->id]) }}" class="btn btn-success btn-sm">
+        <i class="fa fa-print"></i>  {{__('site.download invoice')}}
+    </a>
+    @if($order->status == \App\Enum\OrderStatusEnum::CONFIRMED || $order->status == \App\Enum\OrderStatusEnum::COMPLETE )
+    <a href="{{ route('dashboard.order.media.index', ['orderId' => $order->id]) }}" class="btn btn-info btn-sm">
+        <i class="fa fa-upload"></i>{{__('site.View Media')}}
+    </a>
+    @endif
+
     @if ($order->order_type == 'high_need')
         {{-- Display categories first --}}
 

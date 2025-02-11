@@ -10,6 +10,7 @@ use App\Http\Requests\SignInRequest;
 use App\Http\Requests\SignUpRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\VerifyRequest;
+use App\Http\Resources\NotificationsResource;
 use App\Http\Resources\UserResource;
 use App\Http\Traits\HttpResponsesTrait;
 use App\Models\User;
@@ -318,5 +319,10 @@ class AuthController extends Controller
 
 
     }
+
+    public function index(Request $request){
+        $notifications = auth('api')->user()->notifications()->where('type', 'App\Notifications\PushNotification')->paginate($request->paginate??10);
+        return $this->success('Updated successfully',new NotificationsResource($notifications),200);
+      }
 
 }

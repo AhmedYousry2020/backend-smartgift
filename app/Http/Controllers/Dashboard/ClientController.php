@@ -23,7 +23,7 @@ class ClientController extends Controller
         $clients = User::when($request->input('search'),function($q) use($request) {
 
             return $q->where('first_name','like','%'.$request->input('search').'%')->orwhere('address','like','%'.$request->input('search').'%');
-        })->latest()->paginate(4);
+        })->latest()->paginate(10);
 
         return view('dashboard.clients.index',compact('clients'));
     }

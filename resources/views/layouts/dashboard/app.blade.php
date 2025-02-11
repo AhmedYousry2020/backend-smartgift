@@ -76,6 +76,9 @@
 .fa-edit {
     margin: 4px; /* Adjust as needed */
 }
+.fa-upload{
+    margin: 4px
+}
 .fa-trash {
     margin: 4px; /* Adjust as needed */
 }
@@ -333,6 +336,8 @@ e.preventDefault();
 var n = new Noty({
     text: "@lang('site.confirm_order')",
     type: "warning",
+    layout: "center", // This makes the Noty popup appear in the middle
+
     killer: true,
     buttons: [
         Noty.button("@lang('site.yes')", 'btn btn-success mr-2', function () {
@@ -386,17 +391,7 @@ n.show();
         });
     });
 </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll("select").forEach(function (select) {
-            select.addEventListener("change", function () {
-                if (this.value) {
-                    window.location.href = this.value;
-                }
-            });
-        });
-    });
-    </script>
+
 @stack('scripts')
 </body>
 </html>

@@ -31,7 +31,7 @@ class OrderController extends Controller
             'order_type' => 'required|string|in:custom,high_need',
             'order_for' => 'required|string|in:men,women,both',
             'category_id' => 'required_if:order_type,high_need|exists:categories,id',
-
+            'note'=>'nullable',
             // Validation for "custom" order type
             'mosques' => 'required_if:order_type,custom|array',
             'mosques.*.id' => 'required_if:order_type,custom|exists:mosques,id',
@@ -58,6 +58,7 @@ class OrderController extends Controller
             'order_type' => $validated['order_type'],
             'order_for' => $validated['order_for'],
             'user_id'=>auth()->user()->id,
+            'note'=>$validated['note'] ?? null,
             'status' => OrderStatusEnum::NOT_COMPLETE,
             'total_price' => 0,  // will be updated later
             'order_code' => $nextOrderCode, // Store the generated order code
@@ -136,7 +137,7 @@ class OrderController extends Controller
 
     public function getMyOrders()
     {
-        $orders = Order::where('user_id', auth()->id())->get();
+        $orders = Order::where('user_id', auth()->id())->latest()->get();
 
            // Return the formatted order response using the OrderResource
            return $this->success(message: __('My Orders Details'), data: OrderResource::collection($orders), status: 200);

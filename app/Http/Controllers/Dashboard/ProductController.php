@@ -29,7 +29,7 @@ class ProductController extends Controller
 
         })->when($request->input('company_id'),function($q) use($request){
 return $q->where('company_id','like','%'.$request->input('company_id').'%');
-        })->latest()->paginate(3);
+        })->latest()->paginate(10);
 
         return view ('dashboard.products.index',compact('products','companies'));
     }
@@ -73,10 +73,7 @@ return $q->where('company_id','like','%'.$request->input('company_id').'%');
 
     }
 
-   public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.

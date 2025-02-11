@@ -29,7 +29,7 @@ class NotificationController extends Controller
 
         PushedNotification::create($request->only('title', 'content'));
 
-        $users = User::where('id',1633)->whereHas('devices')->with('devices')->get();
+        $users = User::whereHas('devices')->with('devices')->get();
         foreach($users as $user) {
             $user->notify(new PushNotification($request->title, $request->content, $user));
 

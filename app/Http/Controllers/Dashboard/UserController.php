@@ -34,7 +34,7 @@ class UserController extends Controller
                 ->orWhere('last_name','like','%'.$request->input('search').'%');
 
         });
-        })->latest()->paginate(5);
+        })->latest()->paginate(10);
 
         /** second method to search*/
        /*

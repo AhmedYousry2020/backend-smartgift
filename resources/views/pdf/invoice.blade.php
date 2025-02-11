@@ -65,6 +65,8 @@
     <p>تاريخ الفاتورة: {{ $invoice->created_at->format('d/m/Y') }}</p>
     <p>العميل: {{ $invoice->user->first_name }} {{ $invoice->user->last_name }}</p>
     <p>رقم التلفون: {{ $invoice->user->phone }} </p>
+    <p>نوع الطلب: {{ __('site.'.$invoice->order_for) }} </p>
+
 </div>
 
 <div id="print-area">

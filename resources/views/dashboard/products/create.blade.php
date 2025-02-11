@@ -24,12 +24,15 @@
                          @method('post')
                          <div class='form-group'>
                          <label>@lang('site.companies')</label>
-                         <select name='company_id' class='form-control'>
-                        <option value=''>@lang('site.all_companies')</option>
-                         @foreach($companies as $company)
-                         <option value='{{$company->id}}' <?php if(old('company_id') == $company->id) echo 'selected' ?>>{{$company->name}}</option>
-                         @endforeach
-                         </select>
+                         <select name="company_id" class="form-control">
+                            <option value="">@lang('site.all_companies')</option>
+                            @foreach($companies as $company)
+                                <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>
+                                    {{ $company->name }}
+                                </option>
+                            @endforeach
+                        </select>
+
                          </div>
 
                          @foreach(config('translatable.locales') as $locale)
