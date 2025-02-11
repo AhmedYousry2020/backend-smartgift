@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return [
     'pending' => 'pending',
@@ -7,4 +7,5 @@ return [
     'unpaid' => 'unpaid',
     'paid' => 'paid',
     'notcomplete' => 'notcomplete',
+    'confirmed' =>  'confirmed'
 ];

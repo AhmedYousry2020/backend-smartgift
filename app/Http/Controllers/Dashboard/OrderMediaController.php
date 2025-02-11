@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Enum\OrderStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderMedia;
@@ -26,6 +27,7 @@ class OrderMediaController extends Controller
      */
     public function store(Request $request)
     {
+
         //dd($request->all());
         $request->validate([
             'media' => 'required|file|mimes:jpg,jpeg,png,gif,mp4,mov,avi|max:20480', // 20MB limit
@@ -33,6 +35,7 @@ class OrderMediaController extends Controller
         ]);
 
         $request_data = $request->only(['order_id']);
+        $order = Order::find($request_data['order_id']);
 
         if ($request->hasFile('media')) {
             $media = $request->file('media');
@@ -49,6 +52,11 @@ class OrderMediaController extends Controller
             $request_data['type'] = $folder === 'images' ? 'image' : 'video';
         }
         OrderMedia::create($request_data);
+        if($order->status == OrderStatusEnum::CONFIRMED)
+        {
+            $order->status = OrderStatusEnum::COMPLETE;
+            $order->save();
+        }
         session()->flash('success', __('site.added_successfully'));
 
         return redirect()->route('dashboard.order.media.index', ['orderId' => $request->order_id]);

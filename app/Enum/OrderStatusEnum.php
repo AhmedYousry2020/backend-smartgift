@@ -8,6 +8,6 @@ class OrderStatusEnum extends BaseEnum{
     public const COMPLETE         = 'completed';
     public const PENDING          = 'pending';
     public const NOT_COMPLETE     = 'notcomplete';
-    public const PAID             = 'paid';
+    public const CONFIRMED             = 'confirmed';
 
 }

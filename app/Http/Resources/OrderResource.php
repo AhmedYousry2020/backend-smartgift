@@ -35,7 +35,7 @@ class OrderResource extends JsonResource
             OrderStatusEnum::COMPLETE => OrderStatusNumEnum::COMPLETE,
             OrderStatusEnum::PENDING => OrderStatusNumEnum::PENDING,
             OrderStatusEnum::NOT_COMPLETE => OrderStatusNumEnum::NOT_COMPLETE,
-            OrderStatusEnum::PAID => OrderStatusNumEnum::PAID,
+            OrderStatusEnum::CONFIRMED => OrderStatusNumEnum::CONFIRMED,
         ];
 
         return $statusMap[$status] ?? 0; // Return 0 if status not found

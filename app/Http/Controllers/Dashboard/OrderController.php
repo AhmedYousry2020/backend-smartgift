@@ -68,7 +68,7 @@ class OrderController extends Controller
 
     public function confirmOrder($orderId){
         $order = Order::findOrFail($orderId);
-        $order->status = OrderStatusEnum::COMPLETE;
+        $order->status = OrderStatusEnum::CONFIRMED;
         $order->save();
         session()->flash('success',__('site.confirmed_successfully'));
         return redirect()->route('dashboard.orders.index');

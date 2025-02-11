@@ -90,10 +90,11 @@
                                    <a href="{{ route('dashboard.invoice.download', ['id' => $order->id]) }}" class="btn btn-success">
                                     {{__('site.download invoice')}}
                                     </a>
-
+                                    @if($order->status == \App\Enum\OrderStatusEnum::CONFIRMED || $order->status == \App\Enum\OrderStatusEnum::COMPLETE )
                                     <a href="{{ route('dashboard.order.media.index', ['orderId' => $order->id]) }}" class="btn btn-info">
                                        {{__('site.View Media')}}
                                     </a>
+                                    @endif
                                     @if($order->status == \App\Enum\OrderStatusEnum::PENDING)
                                     <a href="{{ route('dashboard.order.confirmOrder', ['id' => $order->id]) }}" class="btn btn-warning">
                                         {{__('site.Confirm Order')}}
