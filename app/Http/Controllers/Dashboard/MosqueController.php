@@ -67,6 +67,9 @@ class MosqueController extends Controller
             $image->move(public_path('uploads/mosque_images/'), $filename);
             // Save the path in the database (relative to public)
             $request_data['image'] = 'uploads/mosque_images/' . $filename;
+        }else {
+            // Set a default image if none is provided
+            $request_data['image'] = 'uploads/mosque_images/default.jpg';
         }
 
         Mosque::create($request_data);
