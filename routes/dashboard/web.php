@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\CityController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\LoginController;
@@ -48,6 +49,7 @@ Route::group(
 
             Route::resource('products', ProductController::class)->except(['show']);
             Route::resource( 'settings', SettingController::class)->except(['show']);
+            Route::resource('cities', CityController::class)->except(['show']);
 
             Route::resource('users', UserController::class)->except(['show']);
             Route::resource('clients', ClientController::class)->except(['show']);

@@ -26,6 +26,7 @@ class MosqueController extends Controller
         $isHighNeed = $request->query('is_high_need');
 
         $mosques = Mosque::query()
+            ->where('available', true)
             ->when($isHighNeed !== null, function ($query) use ($isHighNeed) {
                 $query->where('is_high_need', (bool) $isHighNeed);
             })

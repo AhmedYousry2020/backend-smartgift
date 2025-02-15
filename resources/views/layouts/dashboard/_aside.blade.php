@@ -45,6 +45,9 @@
             @if (auth('admin')->user())
             <li> <a href="{{route('dashboard.settings.index')}}"><i class="fa fa-home"></i><span>@lang('site.settings')</span></a></li>
             @endif
+            @if (auth('admin')->user())
+            <li> <a href="{{route('dashboard.cities.index')}}"><i class="fa fa-plus"></i><span>@lang('site.cities')</span></a></li>
+            @endif
 
             @if (auth('admin')->user())
             <li> <a href="{{route('dashboard.portfolio.media.index')}}"><i class="fa fa-cubes"></i><span>@lang('site.portfolio')</span></a></li>

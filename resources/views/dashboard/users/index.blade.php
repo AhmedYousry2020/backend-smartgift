@@ -29,7 +29,7 @@
 
 
             </div>
-            <div class="box-body">
+            <div class="box-body table-responsive">
                   @if($users->count()>0)
                        <table class="table table-bordered table-hover">
                            <thead>

@@ -31,23 +31,46 @@
 
                 <div class="row">
 
-                    <div class="col-md-3">
+
+                    <div class="col-md-4">
                         <input type="text" name="search" class="form-control" placeholder="@lang('site.search')" value="{{ request()->search }}">
                     </div>
 
-                    <div class="col-md-3">
+                    <!-- Status Dropdown -->
+                    <div class="col-md-4">
+                    <select name="status" class="form-control" style="height:36px">
+                        <option value="">@lang('site.all_statuses')</option>
+                        <option value="{{ \App\Enum\OrderStatusEnum::PENDING }}" {{ request()->status == \App\Enum\OrderStatusEnum::PENDING ? 'selected' : '' }}>
+                            @lang('status.pending')
+                        </option>
+                        <option value="{{ \App\Enum\OrderStatusEnum::CONFIRMED }}" {{ request()->status == \App\Enum\OrderStatusEnum::CONFIRMED ? 'selected' : '' }}>
+                            @lang('status.confirmed')
+                        </option>
+                        <option value="{{ \App\Enum\OrderStatusEnum::COMPLETE }}" {{ request()->status == \App\Enum\OrderStatusEnum::COMPLETE ? 'selected' : '' }}>
+                            @lang('status.completed')
+                        </option>
+                        <option value="{{ \App\Enum\OrderStatusEnum::NOT_COMPLETE }}" {{ request()->status == \App\Enum\OrderStatusEnum::NOT_COMPLETE ? 'selected' : '' }}>
+                            @lang('status.notcomplete')
+                        </option>
+                    </select>
+                </div>
+            </div><!-- end of row -->
+                <div class="row" style="margin-top: 7px">
+                    <div class="col-md-4">
                         <input type="date" name="start_date" class="form-control" value="{{ request()->start_date }}">
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <input type="date" name="end_date" class="form-control" value="{{ request()->end_date }}">
                     </div>
+
+
 
                     <div class="col-md-3">
                         <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> @lang('site.search')</button>
                     </div>
+                </div>
 
-                </div><!-- end of row -->
 
             </form><!-- end of form -->
 

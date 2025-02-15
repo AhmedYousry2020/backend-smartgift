@@ -23,8 +23,15 @@ class OrderController extends Controller
             }
         });
 
+        // Filter by order status
+        if ($request->has('status') && $request->status != '') {
+            $orders->where('status', $request->status);
+        }
+
         if ($request->start_date && $request->end_date) {
-            $orders->whereBetween('created_at', [$request->start_date, $request->end_date]);
+            $startDate = $request->start_date . ' 00:00:00';
+            $endDate = $request->end_date . ' 23:59:59';
+            $orders->whereBetween('created_at', [$startDate, $endDate]);
         } elseif ($request->start_date) {
             $orders->whereDate('created_at', '>=', $request->start_date);
         } elseif ($request->end_date) {

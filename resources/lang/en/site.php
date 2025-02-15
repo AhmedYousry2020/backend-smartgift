@@ -35,6 +35,7 @@ return [
 'both'=>'men and women',
 'note'=>'notes',
 'close'=>'close',
+'all_statuses'=>'all_statuses',
 'view'=>'view',
 'men'=>'men',
 'women'=>'women',
