@@ -112,7 +112,7 @@ class AuthController extends Controller
         ]);
         $user['token'] = '';
         $data          = new UserResource($user);
-        $this->sendOtp($data['phone'],$data['otp']);
+        //$this->sendOtp($data['phone'],$data['otp']);
 
         return $this->success(__('Code Created successfully'),$data,200);
     }
