@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\PortfolioController;
 use App\Http\Controllers\API\SliderController;
+use App\Services\OtpService;
 
 Route::group([
     'prefix' => 'v1',
@@ -55,5 +56,10 @@ Route::group([
     Route::get('unread-messages-count', [AuthController::class,'unReadMessagesCount']);
     Route::get('read-notifications', [AuthController::class,'readNotification']);
     Route::get('get-notifications', [AuthController::class,'getNotifications']);
+    Route::get('/send-otp', function () {
+        $otpService = new OtpService();
+        $response = $otpService->sendOtp('01003736147', '123456'); // Replace with a real phone number
+        return response()->json($response);
+    });
 
 });
