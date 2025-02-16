@@ -61,7 +61,7 @@ class AuthController extends Controller
                     'updated_at' => now(),
                 ]);
             }
-            $this->sendOtp($data['phone'] , $code);
+            //$this->sendOtp($data['phone'] , $code);
             $data = new UserResource($user);
             DB::commit();
             return $this->success(__('User created successfully'), $data, 200);
@@ -187,7 +187,7 @@ class AuthController extends Controller
 
         }
 
-        $this->sendOtp($data['phone'] , $code);
+        //$this->sendOtp($data['phone'] , $code);
 
         return $this->success(__('Data Returned Successfully'), new UserResource($user), 200);
 
