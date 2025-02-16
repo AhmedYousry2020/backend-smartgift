@@ -14,6 +14,7 @@ use App\Http\Resources\NotificationsResource;
 use App\Http\Resources\UserResource;
 use App\Http\Traits\HttpResponsesTrait;
 use App\Models\User;
+use App\Services\OtpService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,7 @@ class AuthController extends Controller
                     'updated_at' => now(),
                 ]);
             }
-            //$this->sendOtp($data['phone'] , $code);
+            $this->sendOtp($data['phone'] , $code);
             $data = new UserResource($user);
             DB::commit();
             return $this->success(__('User created successfully'), $data, 200);
@@ -186,7 +187,7 @@ class AuthController extends Controller
 
         }
 
-        //$this->sendOtp($data['phone'] , $code);
+        $this->sendOtp($data['phone'] , $code);
 
         return $this->success(__('Data Returned Successfully'), new UserResource($user), 200);
 
@@ -207,13 +208,10 @@ class AuthController extends Controller
     }
 
     protected function sendOtp($phone,$code){
-        if(config('sms.enable')){
-            $class      = new YamamahSMS();
-            $notifiable = [
-                'phone'   => $phone,
-                'message' => 'Use '.$code.' as code to verify Smart Savings Account',
-            ];
-            $class->send($notifiable);
+        $class      = new OtpService();
+        $response = $class->sendOtp($phone,$code);
+        if (isset($response['error'])) {
+            return false;
         }
         return true;
     }
