@@ -208,12 +208,47 @@ class AuthController extends Controller
     }
 
     protected function sendOtp($phone,$code){
-        $class      = new OtpService();
-        $response = $class->sendOtp($phone,$code);
-        if (isset($response['error'])) {
-            return false;
+        // $class      = new OtpService();
+        // $response = $class->sendOtp($phone,$code);
+        // if (isset($response['error'])) {
+        //     return false;
+        // }
+        // return true;
+        $url = "http://server.smson.com/SmsWebService.asmx";
+        $xmlRequest = "
+        <soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://server.smson.com/\">
+            <soapenv:Header/>
+            <soapenv:Body>
+                <web:SendSMS>
+                    <web:phone>{$phone}</web:phone>
+                    <web:message>Your OTP is {$code}</web:message>
+                </web:SendSMS>
+            </soapenv:Body>
+        </soapenv:Envelope>";
+
+        $headers = [
+            "Content-Type: text/xml; charset=utf-8",
+            "SOAPAction: http://server.smson.com/SendSMS"
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            $error = "cURL Error: " . curl_error($ch);
+            curl_close($ch);
+            return response()->json(["message" => $error], 500);
         }
-        return true;
+
+        curl_close($ch);
+
+        return response()->json(["message" => "OTP Sent Successfully", "response" => $response], 200);
     }
 
 
