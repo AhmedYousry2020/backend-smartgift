@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\MosqueResource;
 use App\Http\Traits\HttpResponsesTrait;
+use App\Models\Category;
 use App\Models\Mosque;
 use Illuminate\Http\Request;
 
@@ -56,5 +58,18 @@ class MosqueController extends Controller
         }
 
         return $this->success(__('Data Returned Successfully'), new MosqueResource($mosque), 200);
+    }
+
+
+    public function listCategories(Request $request)
+    {
+        $categories = Category::query()
+            ->with(['translations' => function ($query) {
+                $query->where('locale', app()->getLocale());
+            }])
+            ->paginate(15);
+
+        return $this->success(message: __('Data Returned Successfully'), data: CategoryResource::collection($categories), status: 200);
+
     }
 }

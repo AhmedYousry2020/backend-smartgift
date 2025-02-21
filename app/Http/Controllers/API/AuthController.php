@@ -360,10 +360,11 @@ class AuthController extends Controller
 
     public function deleteAccount(){
         $user = User::find(Auth::guard('api')->id());
-        $user->is_deleted=1;
-        $user->save();
-        auth()->logout();
-        return $this->success('Deleted successfully',200);
+        if ($user) {
+            $user->delete(); // حذف المستخدم من قاعدة البيانات
+            auth()->logout(); // تسجيل الخروج بعد الحذف
+            return response()->json(['message' => 'Deleted successfully'], 200);
+        }
 
     }
 

@@ -26,6 +26,8 @@ Route::group([
 
     // Mosque Routes
     Route::get('mosques', [MosqueController::class, 'list'])->name('mosques.list');
+    Route::get('categories', [MosqueController::class, 'listCategories'])->name('categories.list');
+
     Route::get('mosques/{id}', [MosqueController::class, 'details'])->name('mosques.details');
 
     // Company and Product Routes
