@@ -358,4 +358,13 @@ class AuthController extends Controller
         return $this->success('Updated successfully',new NotificationsResource($notifications),200);
       }
 
+    public function deleteAccount(){
+        $user = User::find(Auth::guard('api')->id());
+        $user->is_deleted=1;
+        $user->save();
+        auth()->logout();
+        return $this->success('Deleted successfully',200);
+
+    }
+
 }

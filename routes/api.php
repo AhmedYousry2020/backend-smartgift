@@ -22,6 +22,7 @@ Route::group([
     Route::post('logout', [AuthController::class, 'signOut'])->name('auth.sign-out');
     Route::get('details/profile', [AuthController::class, 'profile'])->name('auth.profile');
     Route::post('profile', [AuthController::class, 'updateProfile'])->name('auth.update-profile');
+    Route::get('delete_account', [AuthController::class,'deleteAccount']);
 
     // Mosque Routes
     Route::get('mosques', [MosqueController::class, 'list'])->name('mosques.list');
