@@ -16,7 +16,7 @@ class PortfolioController extends Controller
     use HttpResponsesTrait;
 
     public function __construct(){
-        $this->middleware('auth:api');
+        $this->middleware('auth:api',['except' => ['getSettings']]);
     }
     public function index()
     {

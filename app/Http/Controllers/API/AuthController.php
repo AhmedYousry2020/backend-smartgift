@@ -214,7 +214,7 @@ class AuthController extends Controller
         //     return false;
         // }
         // return true;
-        $url = "http://server.smson.com/SmsWebService.asmx";
+        $url = "http://server.smson.com/SmsWebService.asmx?WSDL";
         $xmlRequest = "
         <soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://server.smson.com/\">
             <soapenv:Header/>
@@ -361,7 +361,8 @@ class AuthController extends Controller
     public function deleteAccount(){
         $user = User::find(Auth::guard('api')->id());
         if ($user) {
-            $user->delete(); // حذف المستخدم من قاعدة البيانات
+            $user->is_deleted =  1;
+            $user->save();
             auth()->logout(); // تسجيل الخروج بعد الحذف
             return response()->json(['message' => 'Deleted successfully'], 200);
         }
