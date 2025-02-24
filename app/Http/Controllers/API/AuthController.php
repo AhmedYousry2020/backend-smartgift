@@ -36,20 +36,32 @@ class AuthController extends Controller
         $data           = $request->validated();
         DB::beginTransaction();
         try{
-            $code    = randomNumber(6);
-            if(app()->environment('local'))
-                $code = 123456;
+            // Check if user exists and is marked as deleted
+        $user = User::where('phone', $data['phone'])->first();
 
-            $data['code']=$code;
-            $user = User::create([
-                'phone'             => $data['phone'],
-                'first_name'        => $data['first_name'],
-                'last_name'         => $data['last_name'],
-                'status'            => UserStatusEnum::ACTIVE,
-                'otp'               => $code,
-                'phone_verified_at' => null,
-                'create_otp_date'   => now(),
-            ]);
+            if ($user) {
+                if ($user->is_deleted == 1) {
+                    // If user is marked as deleted, restore them
+                    $user->update(['is_deleted' => 0]);
+                } else {
+                    return $this->failure(__('User already exists.'));
+                }
+            }else {    
+                $code    = randomNumber(6);
+                if(app()->environment('local'))
+                    $code = 123456;
+
+                $data['code']=$code;
+                $user = User::create([
+                    'phone'             => $data['phone'],
+                    'first_name'        => $data['first_name'],
+                    'last_name'         => $data['last_name'],
+                    'status'            => UserStatusEnum::ACTIVE,
+                    'otp'               => $code,
+                    'phone_verified_at' => null,
+                    'create_otp_date'   => now(),
+                ]);
+            }
             // Save the device information in user_devices table
             if(!empty($request->device_type) && !empty($request->device_token))
             {
@@ -61,6 +73,7 @@ class AuthController extends Controller
                     'updated_at' => now(),
                 ]);
             }
+            
             //$this->sendOtp($data['phone'] , $code);
             $data = new UserResource($user);
             DB::commit();
@@ -140,6 +153,11 @@ class AuthController extends Controller
 
         if(!$user)
             return $this->errors(__('auth.failed'), ['phone'=>[__('auth.failed')]]);
+
+        // Check if the user is deleted
+        if ($user->is_deleted == 1) {
+            return $this->failure(__('Your Account is deleted.'));
+        }
 
         $code    = randomNumber(6);
         if(app()->environment('local'))
