@@ -46,7 +46,7 @@ class AuthController extends Controller
                 } else {
                     return $this->failure(__('User already exists.'));
                 }
-            }else {    
+            }else {
                 $code    = randomNumber(6);
                 if(app()->environment('local'))
                     $code = 123456;
@@ -73,7 +73,7 @@ class AuthController extends Controller
                     'updated_at' => now(),
                 ]);
             }
-            
+
             //$this->sendOtp($data['phone'] , $code);
             $data = new UserResource($user);
             DB::commit();
@@ -225,7 +225,7 @@ class AuthController extends Controller
         return $this->success('Data Returned Successfully',$data,200);
     }
 
-    protected function sendOtp($phone,$code){
+    public function sendOtp($phone,$code){
         // $class      = new OtpService();
         // $response = $class->sendOtp($phone,$code);
         // if (isset($response['error'])) {
