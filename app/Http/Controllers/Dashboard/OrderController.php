@@ -63,7 +63,8 @@ class OrderController extends Controller
 
         $total_with_arabic = Numbers::TafqeetMoney($invoice->total_price);
         $total_with_arabic = str_replace(['ريالا', 'ريال'], 'دينار كويتي', $total_with_arabic);
-
+        $total_with_arabic = str_replace('هللة', 'فلس', $total_with_arabic);
+        
         $invoice['total_with_arabic'] = $total_with_arabic;
         $invoice['currency'] = $currency;
         // Generate PDF from the Blade view
