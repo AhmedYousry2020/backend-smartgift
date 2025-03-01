@@ -54,7 +54,7 @@ class MosqueController extends Controller
             'lng'=>'required',
             'city_id'=>'required',
             'category_id'=>'required',
-            'address'=>'required',
+            'address'=>'nullable',
             'image'=>'file'
             ]);
 
@@ -108,7 +108,7 @@ class MosqueController extends Controller
             'lng'=>'required',
             'city_id'=>'required',
             'category_id'=>'required',
-            'address'=>'required',
+            'address'=>'nullable',
             'image'=>'file'
             ]);
 

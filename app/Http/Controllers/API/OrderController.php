@@ -161,9 +161,9 @@ class OrderController extends Controller
                     'last_name'  => $order->user->last_name
                 ],
                 'order_type' => $order->order_type,
-                'total_quantity'=>$total_quantity,
+                'total_quantity'=>$total_quantity * 100,
                 'status' => $order->status,
-                'total_price' => $order->total_price,
+                'total_price' => number_format($order->total_price,3),
                 'created_at' => $order->created_at->toDateTimeString(),
             ];
         }),

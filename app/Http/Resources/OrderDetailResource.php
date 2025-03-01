@@ -22,10 +22,10 @@ class OrderDetailResource extends JsonResource
             'product' => [
                 'id' => $this->product->id,
                 'name' => $this->product->name,
-                'price' => $this->product->price,
+                'price' => number_format($this->product->price,3),
             ],
             'quantity' => $this->quantity,
-            'total_price' => $this->total_price,
+            'total_price' => number_format($this->total_price,3),
         ];
     }
 }

@@ -18,7 +18,7 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->translations->first()->name ?? $this->name, // Use the translated name or fallback
             'company' => new CompanyResource($this->whenLoaded('company')), // Include company if loaded
-            'price' => $this->price,
+            'price' => number_format($this->price,3),
             'currency'=> app()->getLocale() === 'ar' ? 'دينار كويتي' : 'KWD',
             'bottle_count'=>$this->bottle_count,
             'description' => $this->translations->first()->description ?? $this->description, // Use the translated name or fallback

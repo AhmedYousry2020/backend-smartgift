@@ -21,11 +21,10 @@ class OrderResource extends JsonResource
             'order_type' => $this->order_type,
             'order_for' => $this->order_for,
             'note' => $this->note,
-
             'order_code' => $this->order_code,
             'status' => __('status.'.$this->status),  // Translate status here
             'status_num' => $this->getStatusNum($this->status), // Get status number
-            'total_price' => $this->total_price,
+            'total_price' => number_format($this->total_price,3),
             'order_details' => OrderDetailResource::collection($this->orderDetails),
             'order_categories' => OrderCategoryResource::collection($this->orderCategories),
         ];
