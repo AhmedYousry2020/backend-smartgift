@@ -225,17 +225,51 @@ class AuthController extends Controller
         return $this->success('Data Returned Successfully',$data,200);
     }
 
-    public function sendOtp($phone,$code){
-        // $class      = new OtpService();
-        // $response = $class->sendOtp($phone,$code);
-        // if (isset($response['error'])) {
-        //     return false;
-        // }
-        // return true;
+    function authenticate($username, $password, $token) {
+        $url = "http://server.smson.com/SmsWebService.asmx/authentication?username={$username}&password={$password}&token={$token}";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if (curl_errno($ch)) {
+            curl_close($ch);
+            return ["error" => "cURL Error: " . curl_error($ch)];
+        }
+
+        curl_close($ch);
+
+        if ($httpCode != 200) {
+            return ["error" => "Authentication failed. HTTP Code: " . $httpCode];
+        }
+
+        // Extract token from XML response
+        preg_match('/<string[^>]*>(.*?)<\/string>/', $response, $matches);
+        return isset($matches[1]) ? $matches[1] : ["error" => "Invalid authentication response"];
+    }
+
+    public function sendOtp($phone, $code) {
+        $username = "K.almadinah1";
+        $password = "XRPwvFBQ";
+        $token = "iDKzIz2rA3UDsCtA6cEbXAs9"; // If required
+
+        // Step 1: Authenticate and get session token
+        $authToken = $this->authenticate($username, $password, $token);
+
+        if (isset($authToken['error'])) {
+            return response()->json(["message" => $authToken['error']], 500);
+        }
+
+        // Step 2: Send OTP using the token
         $url = "http://server.smson.com/SmsWebService.asmx?WSDL";
         $xmlRequest = "
         <soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://server.smson.com/\">
-            <soapenv:Header/>
+            <soapenv:Header>
+                <web:AuthToken>{$authToken}</web:AuthToken>
+            </soapenv:Header>
             <soapenv:Body>
                 <web:SendSMS>
                     <web:phone>{$phone}</web:phone>
@@ -257,17 +291,22 @@ class AuthController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if (curl_errno($ch)) {
-            $error = "cURL Error: " . curl_error($ch);
             curl_close($ch);
-            return response()->json(["message" => $error], 500);
+            return response()->json(["message" => "cURL Error: " . curl_error($ch)], 500);
         }
 
         curl_close($ch);
 
-        return response()->json(["message" => "OTP Sent Successfully", "response" => $response], 200);
+        return response()->json([
+            "message" => ($httpCode == 200) ? "OTP Sent Successfully" : "Failed to send OTP",
+            "http_code" => $httpCode,
+            "response" => $response
+        ], $httpCode);
     }
+
 
 
     public function updateProfile(UpdateProfileRequest $request)
