@@ -252,59 +252,41 @@ class AuthController extends Controller
     }
 
     public function sendOtp($phone, $code) {
+       
         $username = "K.almadinah1";
         $password = "XRPwvFBQ";
-        $token = "iDKzIz2rA3UDsCtA6cEbXAs9"; // If required
+        $token    = "iDKzIz2rA3UDsCtA6cEbXAs9"; // If required
+        $sender   = "K.almadinah" ;
+        
+        $data =[]; 
 
-        // Step 1: Authenticate and get session token
-        $authToken = $this->authenticate($username, $password, $token);
+        $data['username'] = $username;
+        $data['password'] = $password;
+        $data['token'] = $token;
+        $data['sender'] = $sender;
+        $data['message'] = $code;
+        $data['dst'] = $phone;
 
-        if (isset($authToken['error'])) {
-            return response()->json(["message" => $authToken['error']], 500);
-        }
+        $data['type'] = "text";
+        $data['coding'] = "unicode";
+        $data['datetime'] = now();
 
-        // Step 2: Send OTP using the token
-        $url = "http://server.smson.com/SmsWebService.asmx?WSDL";
-        $xmlRequest = "
-        <soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://server.smson.com/\">
-            <soapenv:Header>
-                <web:AuthToken>{$authToken}</web:AuthToken>
-            </soapenv:Header>
-            <soapenv:Body>
-                <web:SendSMS>
-                    <web:phone>{$phone}</web:phone>
-                    <web:message>Your OTP is {$code}</web:message>
-                </web:SendSMS>
-            </soapenv:Body>
-        </soapenv:Envelope>";
 
-        $headers = [
-            "Content-Type: text/xml; charset=utf-8",
-            "SOAPAction: http://server.smson.com/SendSMS"
-        ];
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
+        $url = 'http://server.smson.com/Smswebservice.asmx/send';
+        $ch = curl_init($url);
+        # Form data string
+        $postString = http_build_query($data, '', '&');
+        # Setting our options
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+        # Get the response
         $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        if (curl_errno($ch)) {
-            curl_close($ch);
-            return response()->json(["message" => "cURL Error: " . curl_error($ch)], 500);
-        }
-
         curl_close($ch);
-
+    
         return response()->json([
-            "message" => ($httpCode == 200) ? "OTP Sent Successfully" : "Failed to send OTP",
-            "http_code" => $httpCode,
             "response" => $response
-        ], $httpCode);
+        ]);
     }
 
 

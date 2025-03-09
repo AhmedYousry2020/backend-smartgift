@@ -35,9 +35,22 @@ class MosqueController extends Controller
             ->with(['translations' => function ($query) {
                 $query->where('locale', app()->getLocale());
             }])
-            ->paginate(60);
+            ->paginate(200);
 
-        return $this->success(message: __('Data Returned Successfully'), data: MosqueResource::collection($mosques), status: 200);
+        return $this->success(
+             __('Data Returned Successfully'),
+             MosqueResource::collection($mosques),
+              [
+                'pagination' => [
+                    'total' => $mosques->total(),
+                    'per_page' => $mosques->perPage(),
+                    'current_page' => $mosques->currentPage(),
+                    'last_page' => $mosques->lastPage(),
+                    'next_page_url' => $mosques->nextPageUrl(),
+                    'prev_page_url' => $mosques->previousPageUrl(),
+                ]
+            ],
+              200);
 
     }
 
