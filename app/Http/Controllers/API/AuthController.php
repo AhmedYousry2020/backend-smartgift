@@ -48,10 +48,10 @@ class AuthController extends Controller
                 }
             }else {
                 $code    = randomNumber(6);
-                if(app()->environment('local'))
-                    $code = 123456;
+                // if(app()->environment('local'))
+                //     $code = 123456;
 
-                $data['code']=$code;
+                // $data['code']=$code;
                 $user = User::create([
                     'phone'             => $data['phone'],
                     'first_name'        => $data['first_name'],
@@ -74,7 +74,7 @@ class AuthController extends Controller
                 ]);
             }
 
-            //$this->sendOtp($data['phone'] , $code);
+            $this->sendOtp($data['phone'] , $code);
             $data = new UserResource($user);
             DB::commit();
             return $this->success(__('User created successfully'), $data, 200);
@@ -94,7 +94,7 @@ class AuthController extends Controller
         $otp_time_out  = config('sms.timeout');
         if($minute > $otp_time_out)
             return $this->errors(__('Validation errors'), ['code'=>__("The code is Timeout")]);
-        elseif ($data['code'] === $otp_code){
+        elseif ($data['code'] === $otp_code  ){
             User::where('phone',$phone_session)->update([
                 'phone_verified_at' => date('Y-m-d H:i:s'),
             ]);
@@ -115,8 +115,8 @@ class AuthController extends Controller
 
         $data['otp'] = randomNumber(6);
 
-        if(app()->environment('local'))
-            $data['otp'] = 123456;
+        // if(app()->environment('local'))
+        //     $data['otp'] = 123456;
 
         $user->update([
             'otp'               => $data['otp'],
@@ -125,7 +125,7 @@ class AuthController extends Controller
         ]);
         $user['token'] = '';
         $data          = new UserResource($user);
-        //$this->sendOtp($data['phone'],$data['otp']);
+        $this->sendOtp($data['phone'],$data['otp']);
 
         return $this->success(__('Code Created successfully'),$data,200);
     }
@@ -160,8 +160,8 @@ class AuthController extends Controller
         }
 
         $code    = randomNumber(6);
-        if(app()->environment('local'))
-            $code = 123456;
+        // if(app()->environment('local'))
+        //     $code = 123456;
 
         $user = User::where('phone', $data['phone'])
             ->whereIn('status',[UserStatusEnum::ACTIVE, UserStatusEnum::FREEZE])
@@ -205,7 +205,7 @@ class AuthController extends Controller
 
         }
 
-        //$this->sendOtp($data['phone'] , $code);
+        $this->sendOtp($data['phone'] , $code);
 
         return $this->success(__('Data Returned Successfully'), new UserResource($user), 200);
 
@@ -251,7 +251,7 @@ class AuthController extends Controller
         return isset($matches[1]) ? $matches[1] : ["error" => "Invalid authentication response"];
     }
 
-    public function sendOtp($phone, $code) {
+    private function sendOtp($phone, $code) {
        
         $username = "K.almadinah1";
         $password = "XRPwvFBQ";
@@ -269,7 +269,7 @@ class AuthController extends Controller
 
         $data['type'] = "text";
         $data['coding'] = "unicode";
-        $data['datetime'] = now();
+        $data['datetime'] = "now";
 
 
         $url = 'http://server.smson.com/Smswebservice.asmx/send';
